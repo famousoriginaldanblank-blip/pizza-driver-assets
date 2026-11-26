@@ -271,7 +271,7 @@
   BINS.forEach(b => { BIN_MAP[b.code] = b; });
 
   const BOARDS = [
-    { side: 0, x: 234, y: 258, pairs: [{ code: "KeyA", label: "A" }, { code: "KeyS", label: "S" }] },
+    { side: 0, x: 234, y: 258, pairs: [{ code: "KeyD", label: "D" }, { code: "KeyF", label: "F" }] },
     { side: 1, x: 410, y: 258, pairs: [{ code: "KeyJ", label: "J" }, { code: "KeyK", label: "K" }] }
   ];
   const BELTS = [
@@ -283,7 +283,7 @@
     { spawnX: 604, edgeX: 470, keyLabel: "ENTER" }
   ];
   const ORDERS = [
-    { num: 1, name: "ORDER 1: STEINWAY WARM-UP", sub: "ALTERNATE [A \x01 S] & [J \x01 K] TO KNEAD * DRESS 3 PIES!", quota: 3, timeLimit: 30, cashReward: 60, mashGoal: 6, allKeys: false, zInt: [4.2, 6], zDur: 3.4, rInt: [6.2, 8.8] },
+    { num: 1, name: "ORDER 1: STEINWAY WARM-UP", sub: "ALTERNATE [D \x01 F] & [J \x01 K] TO KNEAD * DRESS 3 PIES!", quota: 3, timeLimit: 30, cashReward: 60, mashGoal: 6, allKeys: false, zInt: [4.2, 6], zDur: 3.4, rInt: [6.2, 8.8] },
     { num: 2, name: "ORDER 2: FRIDAY DINNER RUSH", sub: "SHAMBLING HORDE & TEMPLETON * FIRE 4 PIES!", quota: 4, timeLimit: 36, cashReward: 95, mashGoal: 8, allKeys: false, zInt: [2.9, 4.4], zDur: 2.8, rInt: [4.5, 6.6] },
     { num: 3, name: "ORDER 3: ALL-BOROUGH SUPREME", sub: "ALL 8 KEYS [ASDF + JKL;] ON EVERY PIE! * FIRE 5 PIES!", quota: 5, timeLimit: 44, cashReward: 145, mashGoal: 8, allKeys: true, zInt: [2.4, 3.8], zDur: 2.55, rInt: [4, 5.8] }
   ];
@@ -582,7 +582,7 @@
         const b = S1.boards[bp.side];
         if (b && b.state === "mash" && Math.hypot(mx - bp.x, my - bp.y) < 75) {
           const na = b.expectedAlt === -1 ? 0 : b.expectedAlt;
-          knead(b, na, bp.side === 0 ? na : 4 + na);
+          knead(b, na, bp.side === 0 ? 2 + na : 4 + na);
         }
       });
     });
@@ -1188,7 +1188,7 @@
       drawNeoText("BONUS STAGE * EARN LINE ITEMS FOR 'MADONNA & CHILD'!", W / 2, 92, { fill: "#38bdf8", align: "center", bold: true });
 
       const rules = [
-        "1. ALTERNATE [A \x01 S] (LEFT) & [J \x01 K] (RIGHT) TO KNEAD!",
+        "1. ALTERNATE [D \x01 F] (LEFT) & [J \x01 K] (RIGHT) TO KNEAD!",
         "2. TYPE TOPPING KEYS ABOVE EACH PIE TO CONVEYOR IT!",
         "3. [TAB] WHACKS LEFT ZOMBIE  *  [ENTER] WHACKS RIGHT!",
         "4. [SPACE] WHACK-A-MOLES TEMPLETON OUT OF THE TINS!",
