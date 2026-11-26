@@ -1,35 +1,40 @@
 // ============================================================================
-// STAGE 1 INTER-BOROUGH BONUS: "LI'L (SLICE) SHOP OF HORRORS" (32-BIT NEO-GEO)
+// STAGE 1 INTER-BOROUGH BONUS: "LI'L (SLICE) SHOP OF HORRORS"
+// Authentic Chunky 32-Bit SNK Neo-Geo Edition (640x360 -> 3x Nearest-Neighbor 1920x1080)
 // ============================================================================
 (function () {
+  const W = 640, H = 360;
   const GH_PAGES = "https://famousoriginaldanblank-blip.github.io/pizza-driver-assets";
   const JSDELIVR = "https://cdn.jsdelivr.net/gh/famousoriginaldanblank-blip/pizza-driver-assets@main";
 
   const S1_FRAMES = {
-    dough_0:[4,4,79,67], dough_1:[87,4,89,55], dough_2:[180,4,92,52], dough_3:[276,4,99,61], dough_4:[379,4,104,64], dough_5:[487,4,107,67],
-    fire_0:[598,4,82,96], fire_1:[684,4,78,105], fire_2:[766,4,77,101], fire_3:[847,4,68,95], flour_0:[919,4,70,68], flour_1:[4,113,93,84],
-    peel_0:[101,113,92,92], peel_1:[197,113,105,106], peel_2:[306,113,91,95], brush_0:[401,113,67,65], brush_1:[472,113,103,82], brush_2:[579,113,81,73],
-    pie_sauced:[664,113,128,84], pie_mozz:[796,113,128,84], top_roni:[4,223,97,74], top_garlic:[105,223,87,69], top_sausage:[196,223,93,78],
-    top_mushroom:[293,223,97,78], top_olive:[394,223,86,77], top_pepper:[484,223,86,78], pie_baked:[574,223,189,106], vfx_spark:[767,223,127,102],
-    zy_walk_0:[898,223,110,159,43,159], zy_walk_1:[4,386,91,159,36,159], zy_walk_2:[99,386,83,158,25,158], zy_walk_3:[186,386,100,160,42,160],
-    zy_walk_4:[290,386,105,158,42,158], zy_walk_5:[399,386,94,159,41,159], zy_walk_6:[497,386,92,151,32,151], zy_walk_7:[593,386,102,151,33,151],
-    zy_lunge_0:[699,386,142,138,50,138], zy_lunge_1:[845,386,108,136,41,136], zy_hit_0:[4,550,97,160,48,160], zy_hit_1:[105,550,87,168,40,168],
-    zc_walk_0:[196,550,104,156,30,156], zc_walk_1:[304,550,90,153,27,153], zc_walk_2:[398,550,101,155,33,155], zc_walk_3:[503,550,103,157,34,157],
-    zc_walk_4:[610,550,102,155,33,155], zc_walk_5:[716,550,91,162,29,162], zc_walk_6:[811,550,91,156,29,156], zc_walk_7:[906,550,90,156,30,156],
-    zc_lunge_0:[4,722,133,145,45,145], zc_lunge_1:[141,722,120,143,47,143], zc_hit_0:[265,722,99,159,47,159], zc_hit_1:[368,722,101,169,50,169],
-    rat_0:[473,722,45,18,23,18], rat_1:[522,722,47,43,24,40], rat_2:[573,722,45,48,23,48], rat_3:[622,722,47,48,24,48],
-    rat_4:[673,722,43,47,22,47], rat_5:[720,722,48,47,24,47], rat_6:[772,722,46,50,23,50], rat_7:[822,722,44,51,22,51]
+    dough_0:[4,4,89,76], dough_1:[97,4,102,63], dough_2:[203,4,106,60],
+    dough_3:[313,4,113,69], dough_4:[430,4,120,73], dough_5:[554,4,129,80],
+    fire_0:[687,4,82,95], fire_1:[773,4,77,103], fire_2:[854,4,76,100], fire_3:[934,4,67,93],
+    flour_0:[4,111,70,68], flour_1:[78,111,92,84],
+    peel_0:[174,111,91,92], peel_1:[269,111,104,105], peel_2:[377,111,90,94],
+    brush_0:[471,111,66,64], brush_1:[541,111,103,82], brush_2:[648,111,80,71],
+    pie_sauced:[732,111,132,86], pie_mozz:[868,111,132,86],
+    top_roni:[4,220,96,74], top_garlic:[104,220,86,69], top_sausage:[194,220,92,77],
+    top_mushroom:[290,220,97,77], top_olive:[391,220,86,77], top_pepper:[481,220,86,77],
+    pie_baked:[571,220,188,106], vfx_spark:[763,220,125,101],
+    zy_walk_0:[892,220,109,158,42,158], zy_walk_1:[4,382,90,158,35,158],
+    zy_walk_2:[98,382,82,158,25,158], zy_walk_3:[184,382,100,160,42,160],
+    zy_walk_4:[288,382,104,158,41,158], zy_walk_5:[396,382,93,158,40,158],
+    zy_walk_6:[493,382,91,151,32,151], zy_walk_7:[588,382,102,151,33,151],
+    zy_lunge_0:[694,382,141,137,50,137], zy_lunge_1:[839,382,108,136,41,136],
+    zy_hit_0:[4,546,96,160,47,160], zy_hit_1:[104,546,86,168,39,168],
+    zc_walk_0:[194,546,103,155,30,155], zc_walk_1:[301,546,89,153,27,153],
+    zc_walk_2:[394,546,100,154,33,154], zc_walk_3:[498,546,102,157,33,157],
+    zc_walk_4:[604,546,101,154,31,154], zc_walk_5:[709,546,91,161,28,161],
+    zc_walk_6:[804,546,90,156,29,156], zc_walk_7:[898,546,89,155,29,155],
+    zc_lunge_0:[4,718,133,144,45,144], zc_lunge_1:[141,718,120,142,46,142],
+    zc_hit_0:[265,718,98,158,46,158], zc_hit_1:[367,718,100,168,49,168],
+    rat_0:[471,718,45,18,23,18], rat_1:[520,718,46,43,23,40], rat_2:[570,718,45,48,23,48], rat_3:[619,718,46,48,23,48],
+    rat_4:[669,718,43,47,22,47], rat_5:[716,718,48,47,24,47], rat_6:[768,718,46,50,23,50], rat_7:[818,718,43,51,22,51]
   };
 
-  function loadImg(rel) {
-    const cands = [
-      `./assets/${rel}`,
-      `../assets/${rel}`,
-      `${GH_PAGES}/${rel}`,
-      `${GH_PAGES}/assets/${rel}`,
-      `${JSDELIVR}/assets/${rel}`,
-      `${JSDELIVR}/${rel}`
-    ];
+  function loadImgWithCands(cands) {
     const im = new Image();
     let i = 0;
     im._ready = false;
@@ -39,8 +44,26 @@
     return im;
   }
 
-  const s1BgImg = loadImg("minigames/stage1/s1_kitchen_bg.jpg");
-  const s1AtlasImg = loadImg("minigames/stage1/s1_sprites.png");
+  const s1BgImg = loadImgWithCands([
+    "./assets/minigames/stage1/s1_kitchen_bg.png?v=0235e",
+    "../assets/minigames/stage1/s1_kitchen_bg.png?v=0235e",
+    `${GH_PAGES}/minigames/stage1/s1_kitchen_bg.png?v=0235e`,
+    `${GH_PAGES}/assets/minigames/stage1/s1_kitchen_bg.png?v=0235e`,
+    `${JSDELIVR}/assets/minigames/stage1/s1_kitchen_bg.png`,
+    `${JSDELIVR}/minigames/stage1/s1_kitchen_bg.png`,
+    "./assets/minigames/stage1/s1_kitchen_bg.jpg",
+    `${GH_PAGES}/minigames/stage1/s1_kitchen_bg.jpg`,
+    `${JSDELIVR}/assets/minigames/stage1/s1_kitchen_bg.jpg`
+  ]);
+
+  const s1AtlasImg = loadImgWithCands([
+    "./assets/minigames/stage1/s1_sprites.png?v=0235e",
+    "../assets/minigames/stage1/s1_sprites.png?v=0235e",
+    `${GH_PAGES}/minigames/stage1/s1_sprites.png?v=0235e`,
+    `${GH_PAGES}/assets/minigames/stage1/s1_sprites.png?v=0235e`,
+    `${JSDELIVR}/assets/minigames/stage1/s1_sprites.png`,
+    `${JSDELIVR}/minigames/stage1/s1_sprites.png`
+  ]);
 
   const S1BGM = {
     audio: null,
@@ -48,11 +71,11 @@
     idx: 0,
     active: false,
     cands: [
-      `${GH_PAGES}/audio/MiniGame1_Midnight_Alley_Run.mp3`,
-      `${JSDELIVR}/audio/MiniGame1_Midnight_Alley_Run.mp3`,
-      "./audio/MiniGame1_Midnight_Alley_Run.mp3",
+      "./_music/MiniGame1_Midnight_Alley_Run.mp3",
+      "../_music/MiniGame1_Midnight_Alley_Run.mp3",
       "./assets/audio/MiniGame1_Midnight_Alley_Run.mp3",
-      "../audio/MiniGame1_Midnight_Alley_Run.mp3"
+      `${GH_PAGES}/audio/MiniGame1_Midnight_Alley_Run.mp3`,
+      `${JSDELIVR}/audio/MiniGame1_Midnight_Alley_Run.mp3`
     ],
     init() {
       if (this.audio || typeof Audio === "undefined") return;
@@ -233,13 +256,14 @@
     buzz() { this.adpcm({ loFi: true, dur: 0.28, startFreq: 1800, endFreq: 140, Q: 1, gain: 0.26 }); this.fm({ freq: 146.8, endFreq: 36.7, dur: 0.44, ratio: 1, modIdx: 6.2, modEndIdx: 1.6, carType: "sawtooth", gain: 0.18 }); this.fm({ freq: 103.8, endFreq: 32.7, dur: 0.44, ratio: 1.5, modIdx: 5.5, modEndIdx: 1.4, carType: "sawtooth", gain: 0.14, delay: 0.03 }); }
   };
 
+  // Native 640x360 Neo-Geo Coordinates (3x integer blit -> 1920x1080!)
   const BINS = [
-    { idx: 0, hand: 0, code: "KeyA", key: "A", name: "SAUCE", color: "#ef4444", x: 52, y: 332, sprite: null, baseStage: "sauced" },
-    { idx: 1, hand: 0, code: "KeyS", key: "S", name: "MOZZ", color: "#fef08a", x: 121, y: 332, sprite: null, baseStage: "mozz" },
-    { idx: 2, hand: 0, code: "KeyD", key: "D", name: "RONI", color: "#dc2626", x: 190, y: 332, sprite: "top_roni" },
-    { idx: 3, hand: 0, code: "KeyF", key: "F", name: "GARLIC", color: "#facc15", x: 256, y: 332, sprite: "top_garlic" },
-    { idx: 4, hand: 1, code: "KeyJ", key: "J", name: "SAUSAGE", color: "#b45309", x: 385, y: 332, sprite: "top_sausage" },
-    { idx: 5, hand: 1, code: "KeyK", key: "K", name: "SHROOMS", color: "#e2e8f0", x: 452, y: 332, sprite: "top_mushroom" },
+    { idx: 0, hand: 0, code: "KeyA", key: "A", name: "SAUCE", color: "#ef4444", x: 52,  y: 332, sprite: null, baseStage: "sauced" },
+    { idx: 1, hand: 0, code: "KeyS", key: "S", name: "MOZZ",  color: "#fef08a", x: 121, y: 332, sprite: null, baseStage: "mozz" },
+    { idx: 2, hand: 0, code: "KeyD", key: "D", name: "RONI",  color: "#dc2626", x: 190, y: 332, sprite: "top_roni" },
+    { idx: 3, hand: 0, code: "KeyF", key: "F", name: "GARLIC",color: "#facc15", x: 256, y: 332, sprite: "top_garlic" },
+    { idx: 4, hand: 1, code: "KeyJ", key: "J", name: "SAUSAGE",color: "#b45309", x: 385, y: 332, sprite: "top_sausage" },
+    { idx: 5, hand: 1, code: "KeyK", key: "K", name: "SHROOMS",color: "#e2e8f0", x: 452, y: 332, sprite: "top_mushroom" },
     { idx: 6, hand: 1, code: "KeyL", key: "L", name: "OLIVES", color: "#94a3b8", x: 518, y: 332, sprite: "top_olive" },
     { idx: 7, hand: 1, code: "Semicolon", key: ";", name: "PEPPERS", color: "#22c55e", x: 584, y: 332, sprite: "top_pepper" }
   ];
@@ -255,13 +279,13 @@
     { startX: 395, startY: 231, endX: 346, endY: 184, wB: 70, wT: 38 }
   ];
   const AISLES = [
-    { spawnX: 36, edgeX: 170, keyLabel: "TAB" },
+    { spawnX: 36,  edgeX: 170, keyLabel: "TAB" },
     { spawnX: 604, edgeX: 470, keyLabel: "ENTER" }
   ];
   const ORDERS = [
-    { num: 1, name: "ORDER 1: STEINWAY WARM-UP", sub: "Alternate [A ↔ S] & [J ↔ K] to Knead Dough • Dress & Conveyor 3 Pies!", quota: 3, timeLimit: 30, cashReward: 60, mashGoal: 6, allKeys: false, zInt: [4.2, 6], zDur: 3.4, rInt: [6.2, 8.8] },
-    { num: 2, name: "ORDER 2: FRIDAY DINNER RUSH", sub: "Shambling NYC Horde & Whack-A-Mole Templeton • Fire 4 Pies!", quota: 4, timeLimit: 36, cashReward: 95, mashGoal: 8, allKeys: false, zInt: [2.9, 4.4], zDur: 2.8, rInt: [4.5, 6.6] },
-    { num: 3, name: "ORDER 3: ALL-BOROUGH SUPREME SLAM", sub: "ALL 8 KEYS [ASDF + JKL;] ON EVERY PIE! • Fire 5 Supreme Pies!", quota: 5, timeLimit: 44, cashReward: 145, mashGoal: 8, allKeys: true, zInt: [2.4, 3.8], zDur: 2.55, rInt: [4, 5.8] }
+    { num: 1, name: "ORDER 1: STEINWAY WARM-UP", sub: "ALTERNATE [A \x01 S] & [J \x01 K] TO KNEAD * DRESS 3 PIES!", quota: 3, timeLimit: 30, cashReward: 60, mashGoal: 6, allKeys: false, zInt: [4.2, 6], zDur: 3.4, rInt: [6.2, 8.8] },
+    { num: 2, name: "ORDER 2: FRIDAY DINNER RUSH", sub: "SHAMBLING HORDE & TEMPLETON * FIRE 4 PIES!", quota: 4, timeLimit: 36, cashReward: 95, mashGoal: 8, allKeys: false, zInt: [2.9, 4.4], zDur: 2.8, rInt: [4.5, 6.6] },
+    { num: 3, name: "ORDER 3: ALL-BOROUGH SUPREME", sub: "ALL 8 KEYS [ASDF + JKL;] ON EVERY PIE! * FIRE 5 PIES!", quota: 5, timeLimit: 44, cashReward: 145, mashGoal: 8, allKeys: true, zInt: [2.4, 3.8], zDur: 2.55, rInt: [4, 5.8] }
   ];
 
   const S1 = {
@@ -271,7 +295,8 @@
     completedOrders: [], endReason: "", hitStop: 0, shake: 0, ovenFlare: 0, scroll: [0, 0], boost: [0, 0],
     flashMsg: "", flashColor: "#fde047", flashTimer: 0, binFlash: new Array(8).fill(0), boards: [null, null],
     conveyorPies: [], puffs: [], flying: [], sparks: [], popups: [], zombies: [null, null],
-    whacks: [{ anim: 0, cd: 0 }, { anim: 0, cd: 0 }], zClock: 2.5, rat: null, brushAnim: 0, brushX: 320, rClock: 4.8, _ptrBound: false
+    whacks: [{ anim: 0, cd: 0 }, { anim: 0, cd: 0 }], zClock: 2.5, rat: null, brushAnim: 0, brushX: 320, rClock: 4.8,
+    _ptrCvs: null
   };
 
   function rand(a, b) { return a + Math.random() * (b - a); }
@@ -366,7 +391,7 @@
       if (S1.host && S1.host.addAccountCash && grand > 0) S1.host.addAccountCash(grand);
     } else {
       S1.isReplay = true;
-      S1.lastBanked = 0; // Replays never add cash to in-game account!
+      S1.lastBanked = 0;
     }
     syncStatus();
   }
@@ -385,7 +410,7 @@
     if (S1.phase === "ready") { exitToBorough(true); return; }
     if (S1.phase === "tally") { exitToBorough(false); return; }
     S1SFX.whiff(-1);
-    finishRun(S1.isReplay ? "SKIPPED PRACTICE REPLAY — $0 ADDED TO ACCOUNT!" : "SKIPPED MID-SHIFT — HEADING TO BROOKLYN!");
+    finishRun(S1.isReplay ? "SKIPPED PRACTICE REPLAY - $0 ADDED TO ACCOUNT!" : "SKIPPED MID-SHIFT - HEADING TO BROOKLYN!");
   }
 
   function knead(b, altIdx, flashIdx) {
@@ -393,7 +418,7 @@
     const pairs = BOARDS[b.side].pairs;
     if (altIdx === -1) {
       b.nudge = 0.35; S1SFX.nudge(b.side);
-      setBanner(`KNEAD WITH ALTERNATING [${pairs[0].label}] ↔ [${pairs[1].label}]!`, "#fde047", 0.65);
+      setBanner(`KNEAD WITH ALTERNATING [${pairs[0].label}] \x01 [${pairs[1].label}]!`, "#fde047", 0.65);
       return;
     }
     if (b.expectedAlt !== -1 && altIdx !== b.expectedAlt) {
@@ -423,10 +448,10 @@
       const a = AISLES[side], zx = a.spawnX + (a.edgeX - a.spawnX) * z.reach;
       S1.sparks.push({ x: zx + (side === 0 ? 28 : -28), y: 164, life: 0.24, max: 0.24 });
       S1SFX.hit(side);
-      setBanner(side === 0 ? "WHACKED LEFT ZOMBIE! 👋" : "WHACKED RIGHT ZOMBIE! 👋", "#4ade80", 0.75);
+      setBanner(side === 0 ? "WHACKED LEFT ZOMBIE!" : "WHACKED RIGHT ZOMBIE!", "#4ade80", 0.75);
     } else {
       w.cd = 0.42; S1SFX.whiff(side);
-      setBanner("PEEL WHIFF! (0.4s RECOVERY)", "#94a3b8", 0.55);
+      setBanner("PEEL WHIFF! (0.4S RECOVERY)", "#94a3b8", 0.55);
     }
   }
 
@@ -437,7 +462,7 @@
       S1.brushX = S1.rat.x; S1.rat.state = "bonked"; S1.rat.timer = 0; S1.hitStop = 0.045; S1.shake = 5;
       S1.sparks.push({ x: S1.rat.x, y: 313, life: 0.24, max: 0.24 });
       S1SFX.ratHit(S1.rat.x);
-      setBanner("BONKED TEMPLETON OUTTA THE TIN! 🧹", "#38bdf8", 0.85);
+      setBanner("BONKED TEMPLETON OUTTA DA TIN!", "#38bdf8", 0.85);
     } else {
       S1.brushX = 320; S1SFX.whiff(-1);
     }
@@ -471,7 +496,7 @@
     S1.binFlash[bin.idx] = 0.2;
     if (S1.rat && S1.rat.state === "active") {
       S1SFX.ratIn(S1.rat.x); S1.shake = 3.5;
-      setBanner("🐀 TEMPLETON IN THE TIN! HIT [SPACE] TO BONK HIM!", "#fb7185", 0.85);
+      setBanner("<!> TEMPLETON IN DA TIN! HIT [SPACE] TO BONK HIM!", "#fb7185", 0.85);
       return;
     }
     const ord = ORDERS[S1.orderIdx];
@@ -497,7 +522,7 @@
         const side = tb.side, ch = BELTS[side];
         S1SFX.belt(side); S1.boost[side] = 1.05;
         S1.conveyorPies.push({ side, bx: bp.x, by: bp.y, p: 0, inOven: false, sprites: [...tb.sprites] });
-        S1.popups.push({ x: ch.endX + (side === 0 ? -18 : 18), y: ch.startY - 28, text: "CONVEYOR! ▲", color: "#fde047", life: 0.75 });
+        S1.popups.push({ x: ch.endX + (side === 0 ? -18 : 18), y: ch.startY - 28, text: "CONVEYOR! ^", color: "#fde047", life: 0.75 });
         S1.orderPiesDone++;
         syncStatus();
         if (S1.orderPiesDone >= ord.quota) {
@@ -512,7 +537,7 @@
             S1.phase = "order_clear";
             S1.phaseTimer = 2.1;
           } else {
-            setTimeout(() => { if (S1.host && S1.host.isActive()) finishRun("ALL 3 ORDERS FIRED — FULL SLATE!"); }, 850);
+            setTimeout(() => { if (S1.host && S1.host.isActive()) finishRun("ALL 3 ORDERS FIRED - FULL SLATE!"); }, 850);
           }
         } else {
           S1.boards[side] = makePie(side);
@@ -525,22 +550,22 @@
   }
 
   function bindCanvasPointer(cvs) {
-    if (S1._ptrBound || !cvs) return;
-    S1._ptrBound = true;
+    if (!cvs || S1._ptrCvs === cvs) return;
+    S1._ptrCvs = cvs;
     cvs.addEventListener("pointerdown", (e) => {
       if (!S1.host || !S1.host.isActive()) return;
       S1SFX.init();
       const r = cvs.getBoundingClientRect();
-      const mx = ((e.clientX - r.left) / r.width) * 640;
-      const my = ((e.clientY - r.top) / r.height) * 360;
+      const mx = ((e.clientX - r.left) / r.width) * W;
+      const my = ((e.clientY - r.top) / r.height) * H;
       if (S1.phase === "ready") {
-        if (mx >= 334 && mx <= 524 && my >= 264 && my <= 302) skipAction();
+        if (mx >= 330 && mx <= 538 && my >= 264 && my <= 302) skipAction();
         else startRun(0, false);
         return;
       }
       if (S1.phase === "tally") {
-        if (mx >= 72 && mx <= 314 && my >= 292 && my <= 332) startRun(0, true);
-        else if (mx >= 326 && mx <= 568 && my >= 292 && my <= 332) exitToBorough(false);
+        if (mx >= 64 && mx <= 312 && my >= 294 && my <= 334) startRun(0, true);
+        else if (mx >= 328 && mx <= 576 && my >= 294 && my <= 334) exitToBorough(false);
         return;
       }
       if (mx >= 196 && mx <= 264 && my >= 2 && my <= 30) { skipAction(); return; }
@@ -563,10 +588,215 @@
     });
   }
 
-  function drawSpr(ctx, nm, cx, cy, w, h, flipX = false, alpha = 1) {
+  // =========================================================================
+  // AUTHENTIC SNK NEO-GEO MVS INTEGER PIXEL-MATRIX ROM BITMAP FONT
+  // Zero browser font resampling! Every stem, bracket, colon & arrow is 100% uniform!
+  // Special glyphs: \x01 = ↔ (2-way arrow), \x02 = ✓ (checkmark), \x03 = ▶ (play arrow)
+  // =========================================================================
+  const NEO_ROM = {
+    "A":["01110","10001","10001","11111","10001","10001","10001"],
+    "B":["11110","10001","10001","11110","10001","10001","11110"],
+    "C":["01111","10000","10000","10000","10000","10000","01111"],
+    "D":["11110","10001","10001","10001","10001","10001","11110"],
+    "E":["11111","10000","10000","11110","10000","10000","11111"],
+    "F":["11111","10000","10000","11110","10000","10000","10000"],
+    "G":["01111","10000","10000","10111","10001","10001","01111"],
+    "H":["10001","10001","10001","11111","10001","10001","10001"],
+    "I":["01110","00100","00100","00100","00100","00100","01110"],
+    "J":["00111","00010","00010","00010","10010","10010","01100"],
+    "K":["10001","10010","10100","11000","10100","10010","10001"],
+    "L":["10000","10000","10000","10000","10000","10000","11111"],
+    "M":["10001","11011","10101","10101","10001","10001","10001"],
+    "N":["10001","11001","10101","10011","10001","10001","10001"],
+    "O":["01110","10001","10001","10001","10001","10001","01110"],
+    "P":["11110","10001","10001","11110","10000","10000","10000"],
+    "Q":["01110","10001","10001","10001","10101","10010","01101"],
+    "R":["11110","10001","10001","11110","10100","10010","10001"],
+    "S":["01111","10000","10000","01110","00001","00001","11110"],
+    "T":["11111","00100","00100","00100","00100","00100","00100"],
+    "U":["10001","10001","10001","10001","10001","10001","01110"],
+    "V":["10001","10001","10001","10001","10001","01010","00100"],
+    "W":["10001","10001","10001","10101","10101","11011","10001"],
+    "X":["10001","10001","01010","00100","01010","10001","10001"],
+    "Y":["10001","10001","01010","00100","00100","00100","00100"],
+    "Z":["11111","00001","00010","00100","01000","10000","11111"],
+    "0":["01110","10011","10101","10101","10101","11001","01110"],
+    "1":["00100","01100","00100","00100","00100","00100","01110"],
+    "2":["01110","10001","00001","00110","01000","10000","11111"],
+    "3":["11110","00001","00001","01110","00001","00001","11110"],
+    "4":["00010","00110","01010","10010","11111","00010","00010"],
+    "5":["11111","10000","10000","11110","00001","00001","11110"],
+    "6":["01111","10000","10000","11110","10001","10001","01110"],
+    "7":["11111","00001","00010","00100","01000","01000","01000"],
+    "8":["01110","10001","10001","01110","10001","10001","01110"],
+    "9":["01110","10001","10001","01111","00001","00001","11110"],
+    "[":["111","100","100","100","100","100","111"],
+    "]":["111","001","001","001","001","001","111"],
+    "(":["011","100","100","100","100","100","011"],
+    ")":["110","001","001","001","001","001","110"],
+    ":":["00","11","00","00","00","11","00"],
+    ";":["00","11","00","00","01","01","10"],
+    ".":["00","00","00","00","00","11","11"],
+    ",":["00","00","00","00","01","01","10"],
+    "!":["1","1","1","1","1","0","1"],
+    "?":["01110","10001","00010","00100","00100","00000","00100"],
+    "$":["00100","01111","10100","01110","00101","11110","00100"],
+    "+":["00000","00100","00100","11111","00100","00100","00000"],
+    "=":["00000","00000","11111","00000","11111","00000","00000"],
+    "-":["0000","0000","0000","1111","0000","0000","0000"],
+    "_":["00000","00000","00000","00000","00000","00000","11111"],
+    "#":["01010","11111","01010","01010","11111","01010","00000"],
+    "•":["000","010","111","010","000","000","000"],
+    "/":["00001","00010","00100","00100","01000","10000","00000"],
+    "&":["01100","10010","10100","01000","10101","10010","01101"],
+    "'":["1","1","0","0","0","0","0"],
+    "\"":["101","101","000","000","000","000","000"],
+    "%":["11001","11010","00100","00100","01011","10011","00000"],
+    "*":["000","101","010","111","010","101","000"],
+    "^":["00100","01110","10101","00100","00100","00000","00000"],
+    "<":["001","010","100","010","001","000","000"],
+    ">":["100","010","001","010","100","000","000"],
+    "\x01":["0010100","0110110","1111111","0110110","0010100","0000000","0000000"],
+    "\x02":["0000001","0000011","0000110","1101100","0111000","0010000","0000000"],
+    "\x03":["10000","11000","11100","11110","11100","11000","10000"],
+    " ":["000","000","000","000","000","000","000"]
+  };
+
+  const offCvs = document.createElement("canvas");
+  offCvs.width = W;
+  offCvs.height = H;
+  const ctx = offCvs.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+
+  const romStampCache = new Map();
+
+  function hexToRgb(hex) {
+    const n = parseInt(hex.replace("#", ""), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+
+  // Builds a pure integer pixel-matrix stamp (scale=1 -> 7px tall, scale=2 -> 14px tall chunky arcade header!)
+  // bold=true widens horizontal stems by +1px for chunky Neo-Geo HUD counters & titles!
+  function getNeoRomStamp(rawTxt, scale = 1, fillHex = "#f8fafc", outlineHex = "#090d16", bold = false, topHighlightHex = null) {
+    const txt = String(rawTxt).toUpperCase();
+    const key = `${txt}|${scale}|${fillHex}|${outlineHex}|${bold ? 1 : 0}|${topHighlightHex || ""}`;
+    if (romStampCache.has(key)) return romStampCache.get(key);
+
+    const glyphs = [];
+    let logicalW = 0;
+    for (let i = 0; i < txt.length; i++) {
+      const g = NEO_ROM[txt[i]] || NEO_ROM[" "];
+      const gw = g[0].length + (bold && txt[i] !== " " ? 1 : 0);
+      glyphs.push({ g, gw, rawW: g[0].length });
+      logicalW += gw + (i < txt.length - 1 ? 1 : 0);
+    }
+    const logicalH = 7;
+    const pad = 1; // in scaled units: 1 logical pixel outline all around + 1px drop shadow
+    const bw = (logicalW + pad * 2 + 1) * scale;
+    const bh = (logicalH + pad * 2 + 1) * scale;
+
+    const sc = document.createElement("canvas");
+    sc.width = Math.max(2, bw);
+    sc.height = Math.max(2, bh);
+    const sctx = sc.getContext("2d");
+    const imgData = sctx.createImageData(sc.width, sc.height);
+    const d = imgData.data;
+
+    // Step 1: Rasterize logical glyph mask at (logicalW + 3) x (logicalH + 3)
+    const mw = logicalW + 3, mh = logicalH + 3;
+    const mask = new Uint8Array(mw * mh); // 0=empty, 1..7=row+1
+    let curX = 1;
+    for (let gi = 0; gi < glyphs.length; gi++) {
+      const { g, gw, rawW } = glyphs[gi];
+      for (let r = 0; r < 7; r++) {
+        const rowStr = g[r];
+        for (let c = 0; c < rawW; c++) {
+          if (rowStr[c] === "1") {
+            mask[(r + 1) * mw + (curX + c)] = r + 1;
+            if (bold && gw > rawW) mask[(r + 1) * mw + (curX + c + 1)] = r + 1;
+          }
+        }
+      }
+      curX += gw + 1;
+    }
+
+    const [fr, fg, fb] = hexToRgb(fillHex);
+    const [hr, hg, hb] = topHighlightHex ? hexToRgb(topHighlightHex) : [Math.min(255, fr + 28), Math.min(255, fg + 28), Math.min(255, fb + 28)];
+    const [or, og, ob] = hexToRgb(outlineHex);
+
+    // Step 2: Expand each logical pixel into an exact scale x scale block with crisp 1-unit Neo-Geo outline + bottom-right drop shadow!
+    for (let ly = 0; ly < mh; ly++) {
+      for (let lx = 0; lx < mw; lx++) {
+        const v = mask[ly * mw + lx];
+        let pr = 0, pg = 0, pb = 0, pa = 0;
+        if (v > 0) {
+          // Authentic subtle Neo-Geo top-scanline specular highlight on bold/header text
+          const useHi = (topHighlightHex || scale >= 2) && v <= 2;
+          pr = useHi ? hr : fr;
+          pg = useHi ? hg : fg;
+          pb = useHi ? hb : fb;
+          pa = 255;
+        } else {
+          const touch =
+            (lx > 0 && mask[ly * mw + lx - 1]) ||
+            (lx < mw - 1 && mask[ly * mw + lx + 1]) ||
+            (ly > 0 && mask[(ly - 1) * mw + lx]) ||
+            (ly < mh - 1 && mask[(ly + 1) * mw + lx]) ||
+            (lx > 0 && ly > 0 && mask[(ly - 1) * mw + lx - 1]);
+          if (touch) {
+            pr = or; pg = og; pb = ob; pa = 255;
+          }
+        }
+        if (!pa) continue;
+        for (let sy = 0; sy < scale; sy++) {
+          const py = ly * scale + sy;
+          if (py >= sc.height) continue;
+          for (let sx = 0; sx < scale; sx++) {
+            const px = lx * scale + sx;
+            if (px >= sc.width) continue;
+            const p = (py * sc.width + px) * 4;
+            d[p] = pr; d[p + 1] = pg; d[p + 2] = pb; d[p + 3] = 255;
+          }
+        }
+      }
+    }
+
+    sctx.putImageData(imgData, 0, 0);
+    if (romStampCache.size > 360) romStampCache.clear();
+    romStampCache.set(key, sc);
+    return sc;
+  }
+
+  function drawNeoText(txt, x, y, { scale = 1, fill = "#f8fafc", outline = "#090d16", align = "left", bold = false, hi = null } = {}) {
+    if (!txt) return;
+    const st = getNeoRomStamp(txt, scale, fill, outline, bold, hi);
+    let dx = Math.round(x) - scale;
+    if (align === "center") dx = Math.round(x - st.width * 0.5);
+    else if (align === "right") dx = Math.round(x - st.width + scale);
+    ctx.drawImage(st, dx, Math.round(y) - scale);
+  }
+
+  // Chunky 640x360 Neo-Geo arcade box (crisp 1px dark outer rim + 2px colored bevel, = 3px/6px on 1920x1080!)
+  function pill(x, y, w, h, fill, stroke) {
+    const ix = Math.round(x), iy = Math.round(y), iw = Math.round(w), ih = Math.round(h);
+    ctx.fillStyle = "#090d16";
+    ctx.fillRect(ix - 1, iy - 1, iw + 2, ih + 2);
+    if (stroke) {
+      ctx.fillStyle = stroke;
+      ctx.fillRect(ix, iy, iw, ih);
+      ctx.fillStyle = fill;
+      ctx.fillRect(ix + 2, iy + 2, iw - 4, ih - 4);
+    } else {
+      ctx.fillStyle = fill;
+      ctx.fillRect(ix, iy, iw, ih);
+    }
+  }
+
+  function drawSpr(nm, cx, cy, w, h, flipX = false, alpha = 1) {
     const f = S1_FRAMES[nm];
     if (!f || !s1AtlasImg._ready) return;
     ctx.save();
+    ctx.imageSmoothingEnabled = false;
     if (alpha < 1) ctx.globalAlpha = alpha;
     ctx.translate(Math.round(cx), Math.round(cy));
     if (flipX) ctx.scale(-1, 1);
@@ -574,52 +804,44 @@
     ctx.restore();
   }
 
-  function draw1x(ctx, nm, px, py, flipX = false) {
+  function draw1x(nm, px, py, flipX = false) {
     const f = S1_FRAMES[nm];
     if (!f || !s1AtlasImg._ready) return;
     const ax = f[4] !== undefined ? f[4] : (f[2] >> 1);
     const ay = f[5] !== undefined ? f[5] : f[3];
     ctx.save();
+    ctx.imageSmoothingEnabled = false;
     ctx.translate(Math.round(px), Math.round(py));
     if (flipX) ctx.scale(-1, 1);
     ctx.drawImage(s1AtlasImg, f[0], f[1], f[2], f[3], -ax, -ay, f[2], f[3]);
     ctx.restore();
   }
 
-  function pill(ctx, x, y, w, h, fill, stroke) {
-    ctx.fillStyle = fill;
-    ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
-    if (stroke) {
-      ctx.strokeStyle = stroke;
-      ctx.lineWidth = 2;
-      ctx.strokeRect(Math.round(x) + 1, Math.round(y) + 1, Math.round(w) - 2, Math.round(h) - 2);
-    }
-  }
-
   function lineItems(total) {
     if (total <= 0) return [
-      { c: "$0", t: "Taping over Ma's 1987 Russo's wedding VHS cassette" },
-      { c: "$0", t: "Duct-taping a RadioShack mic to Nick's mop handle" }
+      { c: "$0", t: "TAPING OVER MA'S 1987 RUSSO'S WEDDING VHS CASSETTE" },
+      { c: "$0", t: "DUCT-TAPING A RADIOSHACK MIC TO NICK'S MOP HANDLE" }
     ];
     const it = [];
     if (total >= 60) it.push(
-      { c: "$35", t: "2 beat-up C-Stands rented off a guy's Econoline in LIC" },
-      { c: "$25", t: "Lukewarm bodega coffee & buttered rolls for unpaid NYU grips" }
+      { c: "$35", t: "2 BEAT-UP C-STANDS RENTED OFF AN ECONOLINE IN LIC" },
+      { c: "$25", t: "BODEGA COFFEE & BUTTERED ROLLS FOR UNPAID NYU GRIPS" }
     );
     if (total >= 130) it.push(
-      { c: "$65", t: "Weekend wind-up 16mm Bolex camera from Steinway Pawn" },
-      { c: "$30", t: "Cash bribe so ConEd doesn't tow the generator on 30th Ave" }
+      { c: "$65", t: "WEEKEND WIND-UP 16MM BOLEX CAMERA FROM STEINWAY PAWN" },
+      { c: "$30", t: "CASH BRIBE SO CONED DOESN'T TOW GENERATOR ON 30TH AVE" }
     );
     if (total >= 240) it.push(
-      { c: "$95", t: "400ft recanned Kodak 35mm short-ends (slightly expired)" },
-      { c: "$50", t: "Bootleg doorway dolly + hot pastrami crafty so lead stays!" }
+      { c: "$95", t: "400FT RECANNED KODAK 35MM SHORT-ENDS (SLIGHTLY EXPIRED)" },
+      { c: "$50", t: "BOOTLEG DOORWAY DOLLY + HOT PASTRAMI CRAFTY FOR LEAD" }
     );
     const rem = total - it.reduce((s, r) => s + (parseInt(r.c.slice(1), 10) || 0), 0);
-    if (rem > 0) it.push({ c: `$${rem}`, t: "Gaffer tape, parking-ticket slush fund & extra fake blood" });
+    if (rem > 0) it.push({ c: `$${rem}`, t: "GAFFER TAPE, PARKING-TICKET SLUSH FUND & FAKE BLOOD" });
     return it;
   }
 
-  function updateAndDraw(ctx, dt) {
+  function updateAndDraw(dispCtx, dt) {
+    dt = Math.min(0.05, Math.max(0.001, dt));
     S1BGM.sync();
     S1.timer += dt;
     if (S1.flashTimer > 0) S1.flashTimer = Math.max(0, S1.flashTimer - dt);
@@ -637,7 +859,7 @@
         cp.p += dt * 1.08;
         if (cp.p >= 0.9 && !cp.inOven) {
           cp.inOven = true; S1.ovenFlare = 0.55; S1SFX.oven();
-          S1.popups.push({ x: 320 + (cp.side === 0 ? -24 : 24), y: 154, text: "🔥 IN THE OVEN!", color: "#4ade80", life: 0.75 });
+          S1.popups.push({ x: 320 + (cp.side === 0 ? -24 : 24), y: 154, text: "IN DA OVEN!", color: "#4ade80", life: 0.75 });
         }
         if (cp.p >= 1) S1.conveyorPies.splice(i, 1);
       }
@@ -692,9 +914,9 @@
             z.reach += dt / z.dur;
             if (z.reach >= 1) {
               S1.zombies[s] = null; S1.stolenCount++; S1.shake = 9; S1SFX.stole(s); syncStatus();
-              if (S1.stolenCount >= 5) { finishRun("5 PIES STOLEN — RITCHIE SHUT DOWN THE PARLOR!"); break; }
+              if (S1.stolenCount >= 5) { finishRun("5 PIES STOLEN - RITCHIE SHUT DOWN THE PARLOR!"); break; }
               S1.boards[s] = makePie(s);
-              setBanner(`🧟 ZOMBIE GRABBED ${s === 0 ? "LEFT" : "RIGHT"} PIE! (${S1.stolenCount}/5 STOLEN)`, "#ef4444", 1.25);
+              setBanner(`<!> ZOMBIE GRABBED ${s === 0 ? "LEFT" : "RIGHT"} PIE! (${S1.stolenCount}/5 STOLEN)`, "#ef4444", 1.25);
             }
           } else {
             z.hitT += dt;
@@ -719,28 +941,36 @@
       stepVfx();
     }
 
-    // --- RENDER 640x360 NEO-GEO STAGE 1 ---
-    ctx.imageSmoothingEnabled = false;
+    // --- RENDER CHUNKY 640x360 NEO-GEO BUFFER -> EXACT 4x INTEGER BLIT TO 2560x1440 (SHARP-BILINEAR READY!) ---
+    const dispCvs = dispCtx.canvas;
+    if (dispCvs.width !== 2560 || dispCvs.height !== 1440) {
+      dispCvs.width = 2560;
+      dispCvs.height = 1440;
+    }
+    dispCtx.imageSmoothingEnabled = false;
+
     ctx.save();
+    ctx.imageSmoothingEnabled = false;
     if (S1.shake > 0.2) ctx.translate(Math.round((Math.random() - 0.5) * S1.shake), Math.round((Math.random() - 0.5) * S1.shake));
-    if (s1BgImg._ready) ctx.drawImage(s1BgImg, 0, 0, 640, 360);
-    else { ctx.fillStyle = "#1e1024"; ctx.fillRect(0, 0, 640, 360); }
+
+    if (s1BgImg._ready) ctx.drawImage(s1BgImg, 0, 0, W, H);
+    else { ctx.fillStyle = "#1e1024"; ctx.fillRect(0, 0, W, H); }
 
     BELTS.forEach((ch, s) => {
       for (let r = 0; r < 7; r++) {
         const u = (r / 7 + S1.scroll[s]) % 1;
         const cx = ch.startX + (ch.endX - ch.startX) * u;
         const cy = ch.startY + (ch.endY - ch.startY) * u;
-        const w = ch.wB + (ch.wT - ch.wB) * u;
+        const bw = ch.wB + (ch.wT - ch.wB) * u;
         ctx.fillStyle = S1.boost[s] > 0 ? "rgba(254,240,138,0.5)" : "rgba(226,232,240,0.3)";
-        ctx.fillRect(Math.round(cx - w / 2), Math.round(cy), Math.round(w), 2);
+        ctx.fillRect(Math.round(cx - bw / 2), Math.round(cy), Math.round(bw), 2);
       }
     });
 
     const ff = `fire_${Math.floor(S1.timer * 8) % 4}`, fd = S1_FRAMES[ff], fsc = 0.48 + (S1.ovenFlare > 0 ? 0.12 : 0);
     ctx.save();
     ctx.beginPath(); ctx.ellipse(320, 176, 46, 41, 0, Math.PI, 0, false); ctx.lineTo(366, 174); ctx.lineTo(274, 174); ctx.closePath(); ctx.clip();
-    drawSpr(ctx, ff, 320, 158, fd[2] * fsc, fd[3] * fsc, false, 0.88 + (S1.ovenFlare > 0 ? 0.12 : 0));
+    drawSpr(ff, 320, 158, fd[2] * fsc, fd[3] * fsc, false, 0.88 + (S1.ovenFlare > 0 ? 0.12 : 0));
     ctx.restore();
 
     S1.conveyorPies.forEach(cp => {
@@ -749,8 +979,12 @@
       const px = ch.startX + (ch.endX - ch.startX) * u, py = ch.startY + (ch.endY - ch.startY) * u - 3, sc = 0.62 * (1 - u * 0.46);
       ctx.save();
       ctx.beginPath(); ctx.ellipse(320, 178, 46, 43, 0, Math.PI, 0, false); ctx.lineTo(445, 178); ctx.lineTo(445, 240); ctx.lineTo(195, 240); ctx.lineTo(195, 178); ctx.closePath(); ctx.clip();
-      if (u < 0.45) { drawSpr(ctx, "pie_mozz", px, py, 128 * sc, 80 * sc); cp.sprites.forEach(ts => drawSpr(ctx, ts, px, py - 1, 88 * sc, 54 * sc)); }
-      else drawSpr(ctx, "pie_baked", px, py, 146 * sc, 84 * sc, false, u > 0.88 ? (1 - u) / 0.12 : 1);
+      if (u < 0.45) {
+        drawSpr("pie_mozz", px, py, 128 * sc, 80 * sc);
+        cp.sprites.forEach(ts => drawSpr(ts, px, py - 1, 88 * sc, 54 * sc));
+      } else {
+        drawSpr("pie_baked", px, py, 146 * sc, 84 * sc, false, u > 0.88 ? (1 - u) / 0.12 : 1);
+      }
       ctx.restore();
     });
 
@@ -765,56 +999,67 @@
         nm = `${z.kind}_hit_${z.hitT < (1 / 6) ? 0 : 1}`;
         zx = a.spawnX + (a.edgeX - a.spawnX) * Math.min(1, z.reach) + (s === 0 ? -1 : 1) * Math.min(1, z.hitT / 0.56) * 34;
       }
-      draw1x(ctx, nm, zx, ky, s === 1);
+      draw1x(nm, zx, ky, s === 1);
     };
 
     for (let s = 0; s < 2; s++) { const z = S1.zombies[s]; if (z && !(z.state === "walk" && z.reach >= 0.72)) drawZ(z, s); }
-    if (s1BgImg._ready) ctx.drawImage(s1BgImg, 0, 234, 640, 126, 0, 234, 640, 126);
+    if (s1BgImg._ready) ctx.drawImage(s1BgImg, 0, 234, W, 126, 0, 234, W, 126);
     for (let s = 0; s < 2; s++) {
       const z = S1.zombies[s];
-      if (z && z.state === "walk" && z.reach >= 0.72) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, 640, 246); ctx.clip(); drawZ(z, s); ctx.restore(); }
+      if (z && z.state === "walk" && z.reach >= 0.72) {
+        ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, 246); ctx.clip(); drawZ(z, s); ctx.restore();
+      }
     }
     for (let s = 0; s < 2; s++) {
       const z = S1.zombies[s];
       if (!z || z.state !== "walk") continue;
-      const urg = z.reach > 0.62, blk = Math.floor(S1.timer * (urg ? 14 : 7)) % 2 === 0, tx = s === 0 ? 14 : 522;
-      pill(ctx, tx, 40, 104, 22, urg && blk ? "#dc2626" : "#090d16", urg ? "#fde047" : "#ef4444");
-      ctx.fillStyle = "#fde047"; ctx.font = 'bold 10px "JetBrains Mono",monospace'; ctx.textAlign = "center"; ctx.fillText(`[${AISLES[s].keyLabel}] WHACK!`, tx + 52, 55);
-      ctx.fillStyle = "#1e293b"; ctx.fillRect(tx + 6, 64, 92, 5); ctx.fillStyle = urg ? "#ef4444" : "#facc15"; ctx.fillRect(tx + 6, 64, Math.round(92 * z.reach), 5);
+      const urg = z.reach > 0.62, blk = Math.floor(S1.timer * (urg ? 14 : 7)) % 2 === 0, tx = s === 0 ? 12 : 520;
+      pill(tx, 39, 108, 21, urg && blk ? "#dc2626" : "#090d16", urg ? "#fde047" : "#ef4444");
+      drawNeoText(`[${AISLES[s].keyLabel}] WHACK!`, tx + 54, 46, { fill: "#fde047", align: "center" });
+      ctx.fillStyle = "#090d16"; ctx.fillRect(tx + 5, 62, 98, 6);
+      ctx.fillStyle = "#1e293b"; ctx.fillRect(tx + 6, 63, 96, 4);
+      ctx.fillStyle = urg ? "#ef4444" : "#facc15"; ctx.fillRect(tx + 6, 63, Math.round(96 * z.reach), 4);
     }
 
     const neededSet = new Set();
     S1.boards.forEach(b => {
       if (!b) return;
-      const bp = BOARDS[b.side], px = bp.x + ((b.wrongShake > 0 || b.nudge > 0) ? Math.sin(S1.timer * 55) * 5 : 0), py = bp.y - 2;
+      const bp = BOARDS[b.side], px = bp.x + ((b.wrongShake > 0 || b.nudge > 0) ? Math.round(Math.sin(S1.timer * 55) * 5) : 0), py = bp.y - 2;
       if (b.state === "mash") {
         const r = b.mashCount / b.mashGoal;
         const nm = b.mashCount === 0 ? "dough_0" : (r < 0.55 ? (b.lastDent === 0 ? "dough_1" : "dough_2") : (r < 0.82 ? "dough_3" : "dough_4"));
-        const df = S1_FRAMES[nm], sc = 1.16 * (1 + b.mashBump * 0.06);
-        drawSpr(ctx, nm, px, py + b.mashBump * 2, df[2] * sc, df[3] * sc);
+        const df = S1_FRAMES[nm], sc = 1 + b.mashBump * 0.06;
+        drawSpr(nm, px, py + b.mashBump * 2, df[2] * sc, df[3] * sc);
+
         const p0 = b.expectedAlt === -1 || b.expectedAlt === 0, p1 = b.expectedAlt === -1 || b.expectedAlt === 1, ty = bp.y - 68;
-        pill(ctx, bp.x - 68, ty, 136, 28, "rgba(9,13,22,0.94)", b.nudge > 0 ? "#ef4444" : "#f59e0b");
-        pill(ctx, bp.x - 60, ty + 3, 42, 16, p0 ? "#facc15" : "#1e293b", p0 ? "#fff" : "#475569");
-        ctx.fillStyle = p0 ? "#090d16" : "#94a3b8"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace'; ctx.textAlign = "center"; ctx.fillText(`[${bp.pairs[0].label}]`, bp.x - 39, ty + 15);
-        ctx.fillStyle = "#fde047"; ctx.fillText("↔", bp.x - 10, ty + 15);
-        pill(ctx, bp.x - 1, ty + 3, 42, 16, p1 ? "#facc15" : "#1e293b", p1 ? "#fff" : "#475569");
-        ctx.fillStyle = p1 ? "#090d16" : "#94a3b8"; ctx.fillText(`[${bp.pairs[1].label}]`, bp.x + 20, ty + 15);
-        ctx.fillStyle = "#e2e8f0"; ctx.font = 'bold 9.5px "JetBrains Mono",monospace'; ctx.fillText(`${b.mashCount}/${b.mashGoal}`, bp.x + 53, ty + 15);
-        ctx.fillStyle = "#334155"; ctx.fillRect(bp.x - 60, ty + 22, 120, 3); ctx.fillStyle = "#22c55e"; ctx.fillRect(bp.x - 60, ty + 22, Math.round(120 * r), 3);
+        pill(bp.x - 70, ty, 140, 28, "rgba(9,13,22,0.95)", b.nudge > 0 ? "#ef4444" : "#f59e0b");
+        pill(bp.x - 63, ty + 4, 38, 15, p0 ? "#facc15" : "#1e293b", p0 ? "#fef08a" : "#475569");
+        drawNeoText(`[${bp.pairs[0].label}]`, bp.x - 44, ty + 8, { fill: p0 ? "#090d16" : "#94a3b8", outline: p0 ? "#fef08a" : "#090d16", align: "center", bold: true });
+        drawNeoText("\x01", bp.x - 15, ty + 8, { fill: "#fde047", align: "center" });
+        pill(bp.x - 4, ty + 4, 38, 15, p1 ? "#facc15" : "#1e293b", p1 ? "#fef08a" : "#475569");
+        drawNeoText(`[${bp.pairs[1].label}]`, bp.x + 15, ty + 8, { fill: p1 ? "#090d16" : "#94a3b8", outline: p1 ? "#fef08a" : "#090d16", align: "center", bold: true });
+        drawNeoText(`${b.mashCount}/${b.mashGoal}`, bp.x + 51, ty + 8, { fill: "#f8fafc", align: "center" });
+        ctx.fillStyle = "#334155"; ctx.fillRect(bp.x - 62, ty + 22, 124, 3);
+        ctx.fillStyle = "#22c55e"; ctx.fillRect(bp.x - 62, ty + 22, Math.round(124 * r), 3);
       } else {
-        if (b.hasMozz) drawSpr(ctx, "pie_mozz", px, py, 132, 82);
-        else if (b.hasSauce) drawSpr(ctx, "pie_sauced", px, py, 132, 82);
-        else { const df = S1_FRAMES.dough_5; drawSpr(ctx, "dough_5", px, py, df[2] * 1.22, df[3] * 1.22); }
-        b.sprites.forEach(ts => drawSpr(ctx, ts, px, py - 2, 92, 58));
-        const rec = b.recipe, bw = 21, gap = 3, tw = rec.length * bw + (rec.length - 1) * gap, sx = bp.x - tw / 2, ty = bp.y - 66;
-        pill(ctx, sx - 5, ty - 4, tw + 10, 26, "rgba(9,13,22,0.92)", "#38bdf8");
+        if (b.hasMozz) { const mf = S1_FRAMES.pie_mozz; drawSpr("pie_mozz", px, py, mf[2], mf[3]); }
+        else if (b.hasSauce) { const sf = S1_FRAMES.pie_sauced; drawSpr("pie_sauced", px, py, sf[2], sf[3]); }
+        else { const df = S1_FRAMES.dough_5; drawSpr("dough_5", px, py, df[2], df[3]); }
+        b.sprites.forEach(ts => { const tf = S1_FRAMES[ts]; drawSpr(ts, px, py - 2, tf[2], tf[3]); });
+
+        const rec = b.recipe, bw = 21, gap = 3, tw = rec.length * bw + (rec.length - 1) * gap, sx = Math.round(bp.x - tw / 2), ty = bp.y - 66;
+        pill(sx - 5, ty - 4, tw + 10, 26, "rgba(9,13,22,0.94)", "#38bdf8");
         rec.forEach((sb, i) => {
           const bx = sx + i * (bw + gap), dn = i < b.stepIdx, nx = i === b.stepIdx;
           if (nx) neededSet.add(sb.idx);
-          ctx.fillStyle = dn ? "#16a34a" : (nx ? sb.color : "#1e293b"); ctx.fillRect(Math.round(bx), ty, bw, 18);
-          if (nx) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(Math.round(bx), ty, bw, 18); }
-          ctx.fillStyle = nx && (sb.key === "S" || sb.key === "F" || sb.key === "K") ? "#090d16" : "#fff";
-          ctx.font = 'bold 11px "JetBrains Mono",monospace'; ctx.textAlign = "center"; ctx.fillText(dn ? "✓" : sb.key, Math.round(bx + bw / 2), ty + 13);
+          pill(bx, ty, bw, 18, dn ? "#16a34a" : (nx ? sb.color : "#1e293b"), nx ? "#ffffff" : (dn ? "#4ade80" : "#334155"));
+          const darkTxt = nx && (sb.key === "S" || sb.key === "F" || sb.key === "K");
+          drawNeoText(dn ? "\x02" : sb.key, bx + (bw >> 1), ty + 5, {
+            fill: dn ? "#ffffff" : (darkTxt ? "#090d16" : "#f8fafc"),
+            outline: darkTxt ? "#fef08a" : "#090d16",
+            align: "center",
+            bold: !dn
+          });
         });
       }
     });
@@ -822,22 +1067,29 @@
     S1.conveyorPies.forEach(cp => {
       if (cp.p >= 0.24) return;
       const ch = BELTS[cp.side], u = cp.p / 0.24, px = cp.bx + (ch.startX - cp.bx) * u, py = cp.by + (ch.startY - 3 - cp.by) * u, sc = 1 - u * 0.36, pf = S1_FRAMES.peel_0;
-      drawSpr(ctx, "peel_0", px + (cp.side === 0 ? -18 : 18) * sc, py + 14 * sc, pf[2] * 0.92 * sc, pf[3] * 0.92 * sc, cp.side === 1);
-      drawSpr(ctx, "pie_mozz", px, py, 128 * sc, 80 * sc); cp.sprites.forEach(ts => drawSpr(ctx, ts, px, py - 1, 88 * sc, 54 * sc));
+      drawSpr("peel_0", px + (cp.side === 0 ? -18 : 18) * sc, py + 14 * sc, pf[2] * 0.92 * sc, pf[3] * 0.92 * sc, cp.side === 1);
+      drawSpr("pie_mozz", px, py, 128 * sc, 80 * sc);
+      cp.sprites.forEach(ts => drawSpr(ts, px, py - 1, 88 * sc, 54 * sc));
     });
 
     S1.flying.forEach(ft => {
       const p = Math.min(1, ft.t / ft.dur), x = ft.sx + (ft.tx - ft.sx) * p, y = ft.sy + (ft.ty - ft.sy) * p - Math.sin(p * Math.PI) * 44;
-      if (ft.bin.sprite) drawSpr(ctx, ft.bin.sprite, x, y, 52, 36);
-      else { ctx.fillStyle = ft.bin.color; ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill(); }
+      if (ft.bin.sprite) drawSpr(ft.bin.sprite, x, y, 52, 36);
+      else {
+        ctx.fillStyle = "#090d16"; ctx.fillRect(Math.round(x) - 9, Math.round(y) - 9, 18, 18);
+        ctx.fillStyle = ft.bin.color; ctx.fillRect(Math.round(x) - 7, Math.round(y) - 7, 14, 14);
+      }
     });
-    S1.puffs.forEach(pf => { const p = 1 - pf.life / pf.max, nm = p < 0.45 ? "flour_0" : "flour_1", f = S1_FRAMES[nm]; drawSpr(ctx, nm, pf.x, pf.y - p * 10, f[2] * 0.68 * pf.sc, f[3] * 0.68 * pf.sc, false, 1 - p * 0.85); });
+    S1.puffs.forEach(pf => {
+      const p = 1 - pf.life / pf.max, nm = p < 0.45 ? "flour_0" : "flour_1", f = S1_FRAMES[nm];
+      drawSpr(nm, pf.x, pf.y - p * 10, f[2] * 0.68 * pf.sc, f[3] * 0.68 * pf.sc, false, 1 - p * 0.85);
+    });
 
     for (let s = 0; s < 2; s++) {
       const w = S1.whacks[s];
       if (w.anim <= 0) continue;
       const el = 1 - w.anim / 0.27, nm = el < 0.24 ? "peel_0" : (el < 0.68 ? "peel_1" : "peel_2"), f = S1_FRAMES[nm];
-      drawSpr(ctx, nm, s === 0 ? 178 - el * 46 : 462 + el * 46, 192 - Math.sin(el * Math.PI) * 20, f[2] * 1.15, f[3] * 1.15, s === 0);
+      drawSpr(nm, s === 0 ? 178 - el * 46 : 462 + el * 46, 192 - Math.sin(el * Math.PI) * 20, f[2] * 1.15, f[3] * 1.15, s === 0);
     }
 
     if (S1.rat) {
@@ -845,9 +1097,9 @@
       if (r.state === "active") {
         const fi = Math.floor(r.timer * 6), seq = ["rat_2", "rat_3", "rat_4", "rat_3"];
         const nm = fi === 0 ? "rat_0" : (fi < 3 ? "rat_1" : seq[(fi - 3) % 4]);
-        draw1x(ctx, nm, rx, nm === "rat_1" ? 350 : 349);
+        draw1x(nm, rx, nm === "rat_1" ? 350 : 349);
         if (s1BgImg._ready) {
-          const mx = Math.max(0, rx - 28), mw = Math.min(56, 640 - mx);
+          const mx = Math.max(0, rx - 28), mw = Math.min(56, W - mx);
           if (nm !== "rat_1") {
             ctx.drawImage(s1BgImg, mx, 349, mw, 11, mx, 349, mw, 11);
             ctx.drawImage(s1BgImg, rx - 18, 348, 9, 1, rx - 18, 348, 9, 1);
@@ -858,15 +1110,15 @@
             if (s1AtlasImg._ready) ctx.drawImage(s1AtlasImg, f1[0], f1[1] + f1[5], f1[2], f1[3] - f1[5], rx - f1[4], 350, f1[2], f1[3] - f1[5]);
           }
         }
-        const tx = Math.max(72, Math.min(568, rx));
-        pill(ctx, tx - 62, 268, 124, 20, Math.floor(S1.timer * 10) % 2 === 0 ? "#be123c" : "#090d16", "#fde047");
-        ctx.fillStyle = "#fff"; ctx.font = 'bold 10px "JetBrains Mono",monospace'; ctx.textAlign = "center"; ctx.fillText("[SPACE] WHACK RAT!", tx, 282);
+        const tx = Math.max(68, Math.min(W - 68, rx));
+        pill(tx - 62, 268, 124, 19, Math.floor(S1.timer * 10) % 2 === 0 ? "#be123c" : "#090d16", "#fde047");
+        drawNeoText("[SPACE] WHACK RAT!", tx, 274, { fill: "#ffffff", align: "center" });
       } else {
         const nm = r.timer < 0.24 ? "rat_5" : (r.timer < 0.48 ? "rat_6" : "rat_7");
         const vis = r.timer < 0.58 || Math.floor((r.timer - 0.58) * 18) % 2 === 0;
         if (vis) {
-          draw1x(ctx, nm, rx, nm === "rat_6" ? 345 : (nm === "rat_5" ? 349 : 350));
-          if (s1BgImg._ready) { const mx = Math.max(0, rx - 28), mw = Math.min(56, 640 - mx); ctx.drawImage(s1BgImg, mx, 350, mw, 10, mx, 350, mw, 10); }
+          draw1x(nm, rx, nm === "rat_6" ? 345 : (nm === "rat_5" ? 349 : 350));
+          if (s1BgImg._ready) { const mx = Math.max(0, rx - 28), mw = Math.min(56, W - mx); ctx.drawImage(s1BgImg, mx, 350, mw, 10, mx, 350, mw, 10); }
         }
       }
     }
@@ -874,112 +1126,169 @@
     BINS.forEach(b => {
       if (S1.rat && S1.rat.binIdx === b.idx) return;
       const nd = neededSet.has(b.idx), fl = S1.binFlash[b.idx] > 0, by = fl ? 294 : 298;
-      pill(ctx, b.x - 28, by, 56, 19, fl ? "#fde047" : (nd ? "#0f172a" : "rgba(9,13,22,0.86)"), fl ? "#fff" : (nd ? "#facc15" : "#475569"));
-      ctx.fillStyle = fl ? "#090d16" : (nd ? "#fde047" : "#cbd5e1"); ctx.font = 'bold 10px "JetBrains Mono",monospace'; ctx.textAlign = "center"; ctx.fillText(`[${b.key}]${b.name.slice(0, 4)}`, b.x, by + 13);
+      pill(b.x - 29, by, 58, 18, fl ? "#fde047" : (nd ? "#0f172a" : "rgba(9,13,22,0.90)"), fl ? "#ffffff" : (nd ? "#facc15" : "#475569"));
+      drawNeoText(`[${b.key}]${b.name.slice(0, 4)}`, b.x, by + 5, {
+        fill: fl ? "#090d16" : (nd ? "#fde047" : "#cbd5e1"),
+        outline: fl ? "#fef08a" : "#090d16",
+        align: "center"
+      });
     });
 
     if (S1.brushAnim > 0) {
       const el = 1 - S1.brushAnim / 0.27, nm = el < 0.24 ? "brush_0" : (el < 0.7 ? "brush_1" : "brush_2"), f = S1_FRAMES[nm];
-      drawSpr(ctx, nm, S1.brushX + (el - 0.5) * 64, 316 - Math.sin(el * Math.PI) * 14, f[2] * 1.05, f[3] * 1.05);
+      drawSpr(nm, S1.brushX + (el - 0.5) * 64, 316 - Math.sin(el * Math.PI) * 14, f[2] * 1.05, f[3] * 1.05);
     }
-    S1.sparks.forEach(sp => { const s = 0.72 + (1 - sp.life / sp.max) * 0.42; drawSpr(ctx, "vfx_spark", sp.x, sp.y, 92 * s, 74 * s); });
+    S1.sparks.forEach(sp => { const s = 0.72 + (1 - sp.life / sp.max) * 0.42; drawSpr("vfx_spark", sp.x, sp.y, 92 * s, 74 * s); });
     S1.popups.forEach(pp => {
       const p = 1 - pp.life / 0.75;
-      ctx.save(); ctx.globalAlpha = Math.min(1, pp.life * 2.5); ctx.font = 'bold 10.5px "JetBrains Mono",monospace'; ctx.textAlign = "center";
-      ctx.fillStyle = "#090d16"; ctx.fillText(pp.text, Math.round(pp.x) + 1, Math.round(pp.y - p * 18) + 1);
-      ctx.fillStyle = pp.color; ctx.fillText(pp.text, Math.round(pp.x), Math.round(pp.y - p * 18));
-      ctx.restore();
+      drawNeoText(pp.text, pp.x, pp.y - p * 18, { fill: pp.color, align: "center", bold: true });
     });
 
-    // Top Arcade HUD Bar
-    pill(ctx, 0, 0, 640, 32, "rgba(9,13,22,0.92)", null);
-    ctx.fillStyle = "#f59e0b"; ctx.fillRect(0, 31, 640, 2);
+    // Top Arcade HUD Bar (Chunky 640x360 Neo-Geo Header)
+    ctx.fillStyle = "rgba(9,13,22,0.94)";
+    ctx.fillRect(0, 0, W, 31);
+    ctx.fillStyle = "#f59e0b";
+    ctx.fillRect(0, 30, W, 2);
+
     const ord = ORDERS[S1.orderIdx] || ORDERS[0];
-    ctx.textAlign = "left"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace';
-    ctx.fillStyle = "#fde047"; ctx.fillText(`ORD ${ord.num}/3`, 10, 20);
-    ctx.fillStyle = "#38bdf8"; ctx.fillText(`PIES:${S1.orderPiesDone}/${ord.quota}`, 80, 20);
+    drawNeoText(`ORD ${ord.num}/3`, 10, 12, { fill: "#fde047", bold: true, hi: "#fef9c3" });
+    drawNeoText(`PIES:${S1.orderPiesDone}/${ord.quota}`, 82, 12, { fill: "#38bdf8", bold: true });
+
     if (S1.phase === "playing" || S1.phase === "order_intro" || S1.phase === "order_clear") {
-      pill(ctx, 196, 5, 66, 21, "#1e293b", "#94a3b8");
-      ctx.textAlign = "center"; ctx.fillStyle = "#f8fafc"; ctx.font = 'bold 9.5px "JetBrains Mono",monospace'; ctx.fillText("ESC SKIP⏭", 229, 19);
+      pill(194, 5, 68, 20, "#1e293b", "#94a3b8");
+      drawNeoText("ESC SKIP\x03", 228, 11, { fill: "#f8fafc", align: "center" });
     }
+
     const low = S1.orderTimeLeft < 8;
-    pill(ctx, 268, 4, 104, 23, low ? "#7f1d1d" : "#1e293b", low ? "#ef4444" : "#64748b");
-    ctx.textAlign = "center"; ctx.fillStyle = low ? "#fecaca" : "#fff"; ctx.font = 'bold 12.5px "JetBrains Mono",monospace'; ctx.fillText(`⏱ ${S1.orderTimeLeft.toFixed(1)}s`, 320, 20);
-    ctx.textAlign = "right"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace';
+    pill(270, 4, 100, 22, low ? "#7f1d1d" : "#1e293b", low ? "#ef4444" : "#64748b");
+    drawNeoText(`${S1.orderTimeLeft.toFixed(1)}S`, 320, 11, { fill: low ? "#fecaca" : "#ffffff", align: "center", bold: true, hi: "#ffffff" });
+
     const runTot = S1.totalCash + S1.speedBonus;
-    ctx.fillStyle = S1.isReplay ? "#fbbf24" : "#4ade80";
-    ctx.fillText(S1.isReplay ? `REPLAY($0 BANK): $${runTot}` : `FILM FUND: +$${runTot}`, 532, 20);
-    ctx.fillStyle = S1.stolenCount >= 3 ? "#ef4444" : "#cbd5e1"; ctx.fillText(`STOLEN:${S1.stolenCount}/5`, 630, 20);
+    drawNeoText(S1.isReplay ? `REPLAY($0): $${runTot}` : `FILM FUND: +$${runTot}`, 532, 12, {
+      fill: S1.isReplay ? "#fbbf24" : "#4ade80",
+      align: "right",
+      bold: true
+    });
+    drawNeoText(`LOST:${S1.stolenCount}/5`, 630, 12, {
+      fill: S1.stolenCount >= 3 ? "#ef4444" : "#cbd5e1",
+      align: "right",
+      bold: true
+    });
 
     if (S1.flashTimer > 0 && S1.flashMsg && S1.phase === "playing") {
-      pill(ctx, 125, 106, 390, 24, "rgba(9,13,22,0.9)", S1.flashColor);
-      ctx.fillStyle = S1.flashColor; ctx.font = 'bold 11px "JetBrains Mono",monospace'; ctx.textAlign = "center"; ctx.fillText(S1.flashMsg, 320, 122);
+      pill(108, 106, 424, 22, "rgba(9,13,22,0.94)", S1.flashColor);
+      drawNeoText(S1.flashMsg, W / 2, 113, { fill: S1.flashColor, align: "center", bold: true });
     }
 
     if (S1.phase === "ready") {
-      ctx.fillStyle = "rgba(9,11,18,0.82)"; ctx.fillRect(0, 0, 640, 360); pill(ctx, 72, 46, 496, 268, "#0f172a", "#f59e0b");
-      ctx.textAlign = "center"; ctx.fillStyle = "#facc15"; ctx.font = '21px "Black Ops One",cursive'; ctx.fillText("LI'L (SLICE) SHOP OF HORRORS", 320, 86);
-      ctx.fillStyle = "#38bdf8"; ctx.font = 'bold 11px "JetBrains Mono",monospace'; ctx.fillText("BONUS STAGE • EARN LINE ITEMS FOR 'MADONNA & CHILD'!", 320, 108);
+      ctx.fillStyle = "rgba(9,11,18,0.84)";
+      ctx.fillRect(0, 0, W, H);
+      pill(60, 44, 520, 272, "#0f172a", "#f59e0b");
+      drawNeoText("LI'L (SLICE) SHOP OF HORRORS", W / 2, 66, { scale: 2, fill: "#facc15", align: "center", bold: true, hi: "#fef08a" });
+      drawNeoText("BONUS STAGE * EARN LINE ITEMS FOR 'MADONNA & CHILD'!", W / 2, 92, { fill: "#38bdf8", align: "center", bold: true });
+
       const rules = [
-        "1. ALTERNATE [A ↔ S] (Left) & [J ↔ K] (Right) to knead raw dough balls!",
-        "2. TYPE the topping sequence above each pie to send it up the conveyor!",
-        "3. [TAB] whacks Left Parlor Zombie • [ENTER] whacks Right Parlor Zombie!",
-        "4. [SPACE] Whack-A-Moles Templeton when he pops out of the topping tins!",
-        "5. Finish full orders before 0.0s to bank cash • 5 Stolen Pies = Kicked Out!"
+        "1. ALTERNATE [A \x01 S] (LEFT) & [J \x01 K] (RIGHT) TO KNEAD!",
+        "2. TYPE TOPPING KEYS ABOVE EACH PIE TO CONVEYOR IT!",
+        "3. [TAB] WHACKS LEFT ZOMBIE  *  [ENTER] WHACKS RIGHT!",
+        "4. [SPACE] WHACK-A-MOLES TEMPLETON OUT OF THE TINS!",
+        "5. FINISH ORDERS BEFORE 0.0S * 5 STOLEN = KICKED OUT!"
       ];
-      ctx.textAlign = "left"; ctx.fillStyle = "#e2e8f0"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace'; rules.forEach((l, i) => ctx.fillText(l, 94, 140 + i * 24));
-      pill(ctx, 116, 268, 206, 30, Math.floor(S1.timer * 3) % 2 === 0 ? "#f59e0b" : "#d97706", "#fef08a");
-      ctx.textAlign = "center"; ctx.fillStyle = "#090d16"; ctx.font = 'bold 11.5px "JetBrains Mono",monospace'; ctx.fillText("[ENTER] START COOKING!", 219, 287);
-      pill(ctx, 334, 268, 190, 30, "#1e293b", "#94a3b8"); ctx.fillStyle = "#e2e8f0"; ctx.font = 'bold 11px "JetBrains Mono",monospace'; ctx.fillText("[ESC] SKIP BONUS ⏭", 429, 287);
+      rules.forEach((l, i) => drawNeoText(l, 82, 122 + i * 26, { fill: "#e2e8f0" }));
+
+      pill(104, 268, 212, 30, Math.floor(S1.timer * 3) % 2 === 0 ? "#f59e0b" : "#d97706", "#fef08a");
+      drawNeoText("[ENTER] START COOKING!", 210, 279, { fill: "#090d16", outline: "#fef08a", align: "center", bold: true });
+      pill(332, 268, 204, 30, "#1e293b", "#94a3b8");
+      drawNeoText("[ESC] SKIP BONUS \x03", 434, 279, { fill: "#e2e8f0", align: "center", bold: true });
     } else if (S1.phase === "order_intro" || S1.phase === "order_clear") {
-      ctx.fillStyle = "rgba(9,11,18,0.72)"; ctx.fillRect(0, 112, 640, 126); ctx.fillStyle = "#facc15"; ctx.fillRect(0, 112, 640, 3); ctx.fillRect(0, 235, 640, 3); ctx.textAlign = "center";
+      ctx.fillStyle = "rgba(9,11,18,0.80)";
+      ctx.fillRect(0, 112, W, 126);
+      ctx.fillStyle = "#facc15";
+      ctx.fillRect(0, 112, W, 3);
+      ctx.fillRect(0, 235, W, 3);
       if (S1.phase === "order_intro") {
-        ctx.fillStyle = "#fde047"; ctx.font = '22px "Black Ops One",cursive'; ctx.fillText(ord.name, 320, 156);
-        ctx.fillStyle = "#fff"; ctx.font = 'bold 11px "JetBrains Mono",monospace'; ctx.fillText(ord.sub, 320, 182);
-        ctx.fillStyle = "#4ade80"; ctx.fillText(`QUOTA: ${ord.quota} PIES IN ${ord.timeLimit}s  •  PAYOUT: +$${ord.cashReward}`, 320, 206);
+        drawNeoText(ord.name, W / 2, 138, { scale: 2, fill: "#fde047", align: "center", bold: true, hi: "#fef9c3" });
+        drawNeoText(ord.sub, W / 2, 172, { fill: "#ffffff", align: "center", bold: true });
+        drawNeoText(`QUOTA: ${ord.quota} PIES IN ${ord.timeLimit}S   *   PAYOUT: +$${ord.cashReward}`, W / 2, 198, { fill: "#4ade80", align: "center", bold: true });
       } else {
         const last = S1.completedOrders[S1.completedOrders.length - 1];
-        ctx.fillStyle = "#4ade80"; ctx.font = '24px "Black Ops One",cursive'; ctx.fillText(`ORDER ${last.num} FIRED & BANKED!`, 320, 160);
-        ctx.fillStyle = "#fde047"; ctx.font = 'bold 13px "JetBrains Mono",monospace'; ctx.fillText(`+$${last.cash} ORDER PAY  +$${last.timeBonus} SPEED TIP!`, 320, 194);
+        drawNeoText(`ORDER ${last.num} FIRED & BANKED!`, W / 2, 146, { scale: 2, fill: "#4ade80", align: "center", bold: true, hi: "#bbf7d0" });
+        drawNeoText(`+$${last.cash} ORDER PAY   +$${last.timeBonus} SPEED TIP!`, W / 2, 188, { fill: "#fde047", align: "center", bold: true });
       }
     } else if (S1.phase === "tally") {
       const curFund = S1.host && S1.host.getAccountCash ? S1.host.getAccountCash() : S1.banked;
-      ctx.fillStyle = "rgba(9,11,18,0.88)"; ctx.fillRect(0, 0, 640, 360); pill(ctx, 48, 22, 544, 316, "#0f172a", "#facc15");
+      ctx.fillStyle = "rgba(9,11,18,0.90)";
+      ctx.fillRect(0, 0, W, H);
+      pill(44, 18, 552, 324, "#0f172a", "#facc15");
+
       const grand = S1.totalCash + S1.speedBonus;
-      ctx.textAlign = "center"; ctx.fillStyle = S1.stolenCount >= 5 ? "#f87171" : "#facc15"; ctx.font = '21px "Black Ops One",cursive'; ctx.fillText("🎬 LINE ITEMS EARNED", 320, 50);
-      ctx.fillStyle = "#94a3b8"; ctx.font = 'bold 10px "JetBrains Mono",monospace'; ctx.fillText(S1.endReason, 320, 68);
-      pill(ctx, 72, 76, 496, 40, "#1e293b", S1.isReplay ? "#f59e0b" : "#475569");
-      ctx.textAlign = "left"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace';
+      drawNeoText("THE NUMBERS", W / 2, 30, { scale: 2, fill: S1.stolenCount >= 5 ? "#f87171" : "#facc15", align: "center", bold: true, hi: "#fef08a" });
+      drawNeoText(S1.endReason, W / 2, 50, { fill: "#94a3b8", align: "center" });
+
+      pill(64, 62, 512, 34, "#1e293b", S1.isReplay ? "#f59e0b" : "#475569");
       if (S1.isReplay) {
-        ctx.fillStyle = "#fde047"; ctx.fillText(`PRACTICE REPLAY SCORE: $${grand} (${S1.completedOrders.length}/3 ORDERS)`, 84, 93);
-        ctx.fillStyle = "#94a3b8"; ctx.fillText(`REPLAY CASH IS NOT ADDED • IN-GAME FILM FUND: $${curFund}`, 84, 108);
+        drawNeoText(`PRACTICE REPLAY SCORE: $${grand} (${S1.completedOrders.length}/3 ORDERS)`, 76, 69, { fill: "#fde047", bold: true });
+        drawNeoText(`REPLAY CASH NOT ADDED * FILM FUND: $${curFund}`, 76, 83, { fill: "#94a3b8" });
       } else {
-        ctx.fillStyle = "#e2e8f0"; ctx.fillText(`ORDERS: ${S1.completedOrders.length}/3 ($${S1.totalCash}) • SPEED TIPS: +$${S1.speedBonus}`, 84, 93);
-        ctx.fillStyle = "#4ade80"; ctx.fillText(`ADDED TO IN-GAME FILM FUND: +$${S1.lastBanked} (TOTAL: $${curFund})`, 84, 108);
+        drawNeoText(`ORDERS: ${S1.completedOrders.length}/3 ($${S1.totalCash}) * SPEED TIPS: +$${S1.speedBonus}`, 76, 69, { fill: "#e2e8f0", bold: true });
+        drawNeoText(`ADDED TO FILM FUND: +$${S1.lastBanked} (TOTAL: $${curFund})`, 76, 83, { fill: "#4ade80", bold: true });
       }
-      ctx.textAlign = "right"; ctx.fillStyle = S1.isReplay ? "#fbbf24" : "#4ade80"; ctx.font = 'bold 13px "JetBrains Mono",monospace';
-      ctx.fillText(S1.isReplay ? "+$0 BANKED" : `BANKED +$${S1.lastBanked}`, 556, 100);
-      ctx.textAlign = "left"; ctx.fillStyle = "#fde047"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace';
-      ctx.fillText(S1.isReplay ? "WHAT THIS REPLAY SCORE WOULD BUY (FOR FUN ONLY):" : "WHAT NICK CAN AFFORD FOR 'MADONNA & CHILD':", 74, 134);
-      lineItems(grand).forEach((row, idx) => {
-        const ry = 146 + idx * 28; pill(ctx, 72, ry, 496, 24, "rgba(30,41,59,0.72)", "#334155");
-        ctx.fillStyle = "#4ade80"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace'; ctx.textAlign = "left"; ctx.fillText(row.c, 82, ry + 16);
-        ctx.fillStyle = "#f8fafc"; ctx.fillText(`• ${row.t}`, 126, ry + 16);
+      drawNeoText(S1.isReplay ? "+$0 BANKED" : `BANKED +$${S1.lastBanked}`, 564, 76, {
+        fill: S1.isReplay ? "#fbbf24" : "#4ade80",
+        align: "right",
+        bold: true
       });
-      pill(ctx, 72, 298, 242, 28, "#1e293b", "#f59e0b"); ctx.textAlign = "center"; ctx.fillStyle = "#fde047"; ctx.font = 'bold 10.5px "JetBrains Mono",monospace'; ctx.fillText("[R] REPLAY ($0 TO ACCOUNT)", 193, 316);
-      pill(ctx, 326, 298, 242, 28, "#22c55e", "#bbf7d0"); ctx.fillStyle = "#090d16"; ctx.font = 'bold 11px "JetBrains Mono",monospace'; ctx.fillText("[ENTER] TO BROOKLYN ▶", 447, 316);
+
+      drawNeoText(S1.isReplay ? "WHAT THIS REPLAY SCORE WOULD BUY (FOR FUN):" : "WHAT NICK CAN AFFORD FOR 'MADONNA & CHILD':", 66, 103, {
+        fill: "#fde047",
+        bold: true
+      });
+
+      const rows = lineItems(grand);
+      const rowStep = rows.length >= 7 ? 25 : 26;
+      rows.forEach((row, idx) => {
+        const ry = 115 + idx * rowStep;
+        pill(64, ry, 512, 21, "rgba(30,41,59,0.85)", "#334155");
+        drawNeoText(row.c, 74, ry + 7, { fill: "#4ade80", bold: true });
+        drawNeoText(`* ${row.t}`, 114, ry + 7, { fill: "#f8fafc" });
+      });
+
+      pill(64, 298, 248, 28, "#1e293b", "#f59e0b");
+      drawNeoText("[R] REPLAY ($0 TO ACCOUNT)", 188, 308, { fill: "#fde047", align: "center", bold: true });
+      pill(328, 298, 248, 28, "#22c55e", "#bbf7d0");
+      drawNeoText("[ENTER] TO BROOKLYN \x03", 452, 308, { fill: "#090d16", outline: "#bbf7d0", align: "center", bold: true });
     }
+
     ctx.restore();
+    dispCtx.drawImage(offCvs, 0, 0, dispCvs.width, dispCvs.height);
   }
 
   window.Stage1HorrorShop = {
     launch(host) {
       S1.host = host;
-      bindCanvasPointer(document.getElementById("minigame-canvas"));
+      const cvs = document.getElementById("minigame-canvas") || document.getElementById("kitchen-canvas");
+      if (cvs) {
+        cvs.width = 2560;
+        cvs.height = 1440;
+        bindCanvasPointer(cvs);
+      }
       S1.phase = "ready"; S1.timer = 0; S1.orderIdx = 0; S1.orderPiesDone = 0; S1.stolenCount = 0;
       S1.totalCash = 0; S1.speedBonus = 0; S1.isReplay = S1.officialDone;
       S1.boards = [null, null]; S1.zombies = [null, null]; S1.rat = null; S1.conveyorPies = [];
       S1BGM.play(0.36);
+      syncStatus();
+    },
+    jumpToOrder(orderIdx, isDev = false) {
+      if (isDev) S1.officialDone = false;
+      startRun(Math.max(0, Math.min(2, orderIdx | 0)), false);
+    },
+    previewTally() {
+      S1.totalCash = 300; S1.speedBonus = 48;
+      S1.completedOrders = [{ num: 1, cash: 60, timeBonus: 14 }, { num: 2, cash: 95, timeBonus: 16 }, { num: 3, cash: 145, timeBonus: 18 }];
+      finishRun("ALL 3 ORDERS FIRED - FULL SLATE!");
+    },
+    resetOfficialForTest() {
+      S1.officialDone = false; S1.isReplay = false; S1.banked = 0; S1.lastBanked = 0;
       syncStatus();
     },
     handleKey,
