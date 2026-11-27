@@ -74,10 +74,10 @@
   function loadImg(rel) {
     const jsd = getJsDelivr();
     const cands = [
-      `./assets/${rel}?v=0235v`,
-      `../assets/${rel}?v=0235v`,
-      `${GH_PAGES}/${rel}?v=0235v`,
-      `${GH_PAGES}/assets/${rel}?v=0235v`,
+      `./assets/${rel}?v=0235w`,
+      `../assets/${rel}?v=0235w`,
+      `${GH_PAGES}/${rel}?v=0235w`,
+      `${GH_PAGES}/assets/${rel}?v=0235w`,
       `${jsd}/assets/${rel}`,
       `${jsd}/${rel}`
     ];
@@ -585,14 +585,16 @@
 
   function makeFightersForRound(rNum) {
     const costume = Math.min(3, Math.max(1, rNum));
-    const fMax = costume === 1 ? 115 : (costume === 2 ? 130 : 145);
+    // Meaty 3-Round Street Fighter II Boss HP so rounds showcase full animations, footsies & multiple Supers!
+    const fMax = costume === 1 ? 230 : (costume === 2 ? 275 : 320);
     G.p = {
       x: 590, y: GROUND_Y, vx: 0, vy: 0, facing: 1,
-      hp: 100, maxHp: 100, dispHp: 100,
-      ovenMeter: rNum > 1 ? 35 : 20,
+      hp: 125, maxHp: 125, dispHp: 125,
+      ovenMeter: rNum > 1 ? 40 : 25,
       salamiT: 0,
       state: "idle", stateT: 0, animT: 0,
       comboStep: 0, comboWin: 0, hitRegistered: false,
+      superStage: 0,
       throwCd: 0, invuln: 0, dizzyT: 0
     };
     G.b = {
@@ -601,13 +603,18 @@
       hp: fMax, maxHp: fMax, dispHp: fMax,
       hatOut: false,
       armor: 0,
+      poiseHits: 0, poiseWin: 0, poiseArmorT: 0,
+      enraged: false,
       state: "esp_sip", stateT: 0, animT: 0,
-      aiCd: 0.75, moveQueue: [],
+      aiCd: 0.45, moveQueue: [], lastMoves: [],
       hitRegistered: false,
       blindedT: 0, invuln: 0,
       belchTick: 0, targetX: 590
     };
     G.camX = 340;
+    G.comboCount = 0;
+    G.comboDisp = 0;
+    G.comboTimer = 0;
 
     G.roundClock = 99;
     G.midRoundDropSent = false;
@@ -824,24 +831,18 @@
 
     p.ovenMeter = 0;
     p.y = GROUND_Y;
+    p.vy = 0;
     p.state = "super";
     p.stateT = 0;
+    p.superStage = 0;
     p.hitRegistered = false;
-    p.invuln = 0.75;
-    p.vx = p.facing * 430;
-    G.superFreeze = 0.30;
-    G.shake = 9;
+    p.invuln = 1.18;
+    p.vx = p.facing * 470;
+    G.superFreeze = 0.34;
+    G.shake = 10;
     SFX.superFlash();
-    setBanner("COAL-OVEN SUPER: LA FORNACE 1919!!", "#fb923c", 1.5);
-    showBubble("giuseppe", "900 DEGREES OF MULBERRY STREET COAL!!", 1.8);
-
-    // Launch simultaneous 1919 parlor volley with the blazing peel rush!
-    const dir = p.facing;
-    G.projectiles.push(
-      { owner: "g", kind: "tomato", x: p.x + dir * 68, y: p.y - 138, vx: dir * 510, vy: -95, rot: 0 },
-      { owner: "g", kind: "oil",    x: p.x + dir * 50, y: p.y - 160, vx: dir * 395, vy: -235, rot: 0 },
-      { owner: "g", kind: "flour",  x: p.x + dir * 82, y: p.y - 118, vx: dir * 570, vy: -40, rot: 0 }
-    );
+    setBanner("HYPER COMBO: LA FORNACE 1919!!", "#fb923c", 1.8);
+    showBubble("giuseppe", "900 DEGREES OF MULBERRY STREET COAL!!", 1.9);
   }
 
   function setKeyState(code, isDown, isRepeat = false) {
@@ -937,14 +938,20 @@
     });
   }
 
-  function damageFanucci(rawDmg, knockX, label = null, canStagger = true) {
+  function damageFanucci(rawDmg, knockX, label = null, canStagger = true, pierceArmor = false) {
     const p = G.p, b = G.b;
     if (!b || b.invuln > 0 || G.phase !== "fighting") return;
-    const mult = p.salamiT > 0 ? 1.42 : 1.0;
+    const mult = p.salamiT > 0 ? 1.28 : 1.0;
     const dmg = Math.max(2, Math.round(rawDmg * mult));
     b.hp = Math.max(0, b.hp - dmg);
-    p.ovenMeter = Math.min(100, p.ovenMeter + Math.round(dmg * 1.45));
-    spawnSpark(b.x - b.facing * 46, b.y - 165, dmg >= 13 ? 1.35 : 1.0);
+    if (p.state !== "super") {
+      p.ovenMeter = Math.min(100, p.ovenMeter + Math.max(3, Math.round(dmg * 1.25)));
+    }
+    G.comboCount = (G.comboTimer > 0 ? G.comboCount : 0) + 1;
+    G.comboDisp = G.comboCount;
+    G.comboTimer = 1.35;
+
+    spawnSpark(b.x - b.facing * 46, b.y - 165, dmg >= 12 ? 1.35 : 1.0);
     if (label) addPopup(b.x, b.y - 285, label, "#fde047");
 
     if (b.hp <= 0) {
@@ -955,17 +962,34 @@
       return;
     }
 
-    if (b.armor > 0 && canStagger) {
-      b.armor--;
+    // Juggernaut / E. Honda Boss Armor & Anti-Mash Poise Counter!
+    if ((b.poiseArmorT > 0 || (b.armor > 0 && !pierceArmor)) && canStagger && p.state !== "super") {
+      if (b.armor > 0) b.armor--;
       SFX.block();
-      addPopup(b.x, b.y - 255, "ARMOR!", "#cbd5e1");
+      addPopup(b.x, b.y - 255, b.poiseArmorT > 0 ? "UNSTOPPABLE!" : "JUGGERNAUT ARMOR!", "#cbd5e1");
       return;
     }
 
-    SFX.hit(dmg >= 12);
-    G.hitStop = dmg >= 12 ? 0.065 : 0.04;
-    if (dmg >= 12) G.shake = 6;
+    SFX.hit(dmg >= 11);
+    G.hitStop = dmg >= 11 ? 0.06 : 0.038;
+    if (dmg >= 11) G.shake = 6;
     if (canStagger && b.state !== "sky_leap" && b.state !== "sky_slam") {
+      b.poiseHits = (b.poiseWin > 0 ? b.poiseHits : 0) + 1;
+      b.poiseWin = 1.65;
+      // After 3 rapid staggers (outside Hyper Combo), Fanucci flexes Black Hand Poise and counters!
+      if (b.poiseHits >= 3 && p.state !== "super") {
+        b.poiseHits = 0;
+        b.poiseArmorT = 1.15;
+        b.armor = 1;
+        b.state = b.costume >= 2 && Math.abs(b.x - p.x) < 210 ? "slap" : (Math.abs(b.x - p.x) < 230 ? "belch" : "charge");
+        b.stateT = 0;
+        b._fired = false;
+        b.hitRegistered = false;
+        b.vx = 0;
+        SFX.quake();
+        addPopup(b.x, b.y - 292, "BLACK HAND POISE!!", "#f87171");
+        return;
+      }
       b.state = "hurt";
       b.stateT = 0;
       b.vx = knockX;
@@ -1083,6 +1107,19 @@
     const dist = Math.abs(b.x - p.x);
     b.facing = p.x <= b.x ? -1 : 1;
 
+    if (b.poiseWin > 0) { b.poiseWin = Math.max(0, b.poiseWin - dt); if (b.poiseWin === 0) b.poiseHits = 0; }
+    if (b.poiseArmorT > 0) b.poiseArmorT = Math.max(0, b.poiseArmorT - dt);
+
+    // Round 3 Mid-Boss Enrage ("NOBODY ROBS DON FANUCCI!!")
+    if (b.costume === 3 && !b.enraged && b.hp > 0 && b.hp <= b.maxHp * 0.50) {
+      b.enraged = true;
+      b.poiseArmorT = 1.25;
+      SFX.quake();
+      G.shake = 10;
+      setBanner("FANUCCI ENRAGED!! WATCH HIS 2-HIT BOSS CHAINS!", "#ef4444", 2.0);
+      showBubble("fanucci", "NOBODY TAKES A SLICE OFF DON FANUCCI!!", 2.2);
+    }
+
     if (b.blindedT > 0 && b.y >= GROUND_Y - 2) {
       b.blindedT = Math.max(0, b.blindedT - dt);
       b.vx *= 0.85;
@@ -1107,22 +1144,24 @@
       }
     }
 
+    const baseCd = b.costume === 1 ? 0.48 : (b.costume === 2 ? 0.35 : (b.enraged ? 0.18 : 0.25));
+
     if (b.state === "hurt") {
       b.vx *= 0.88;
-      if (b.stateT >= 0.36) { b.state = "idle"; b.stateT = 0; b.aiCd = 0.28; }
+      if (b.stateT >= 0.30) { b.state = "idle"; b.stateT = 0; b.aiCd = 0.18; }
       return;
     }
 
     if (b.state === "hat_throw") {
       b.vx *= 0.85;
-      if (b.stateT >= 0.38 && !b._fired) {
+      if (b.stateT >= 0.36 && !b._fired) {
         b._fired = true;
         b.hatOut = true;
         SFX.hatWhir();
         G.projectiles.push({
           owner: "b", kind: "hat",
           x: b.x + b.facing * 86, y: b.y - 172,
-          vx: b.facing * (b.costume === 1 ? 425 : 495),
+          vx: b.facing * (b.costume === 1 ? 445 : 515),
           vy: 0,
           boomerang: b.costume >= 2,
           returning: false,
@@ -1131,88 +1170,88 @@
         });
         addPopup(b.x, b.y - 285, "RAZOR FEDORA!", "#f8fafc");
       }
-      if (b.stateT >= 0.72) { b.state = "idle"; b.stateT = 0; b.aiCd = b.costume === 3 ? 0.55 : 0.85; }
+      if (b.stateT >= 0.66) { b.state = "idle"; b.stateT = 0; b.aiCd = b.moveQueue.length ? 0.10 : baseCd; }
       return;
     }
 
     if (b.state === "cigar") {
       b.vx *= 0.85;
-      if (b.stateT >= 0.32 && !b._fired) {
+      if (b.stateT >= 0.30 && !b._fired) {
         b._fired = true;
         SFX.throwItem();
-        const cnt = b.costume === 3 ? 2 : 1;
+        const cnt = (b.costume === 3 || (b.costume === 2 && b.hp < b.maxHp * 0.55)) ? 2 : 1;
         for (let k = 0; k < cnt; k++) {
           G.projectiles.push({
             owner: "b", kind: "stogie",
             x: b.x + b.facing * 78, y: b.y - 198 + k * 18,
-            vx: b.facing * (350 + k * 85),
+            vx: b.facing * (365 + k * 90),
             vy: -165 - k * 55,
             deflected: false,
             rot: 0
           });
         }
       }
-      if (b.stateT >= 0.68) { b.state = "idle"; b.stateT = 0; b.aiCd = b.costume === 3 ? 0.55 : 0.85; }
+      if (b.stateT >= 0.62) { b.state = "idle"; b.stateT = 0; b.aiCd = b.moveQueue.length ? 0.12 : baseCd; }
       return;
     }
 
     if (b.state === "belch") {
       b.vx *= 0.82;
-      if (b.stateT >= 0.42 && b.stateT <= 1.08) {
+      if (b.stateT >= 0.38 && b.stateT <= 1.04) {
         if (!b._fired) { b._fired = true; SFX.belch(); }
         b.belchTick -= dt;
         if (b.belchTick <= 0) {
-          b.belchTick = 0.11;
+          b.belchTick = 0.10;
           G.projectiles.push({
             owner: "b", kind: "gas",
             x: b.x + b.facing * 86, y: b.y - 196 + (Math.random() - 0.5) * 26,
-            vx: b.facing * (245 + Math.random() * 75),
+            vx: b.facing * (265 + Math.random() * 80),
             vy: -16 + (Math.random() - 0.5) * 40,
-            life: 0.76, maxLife: 0.76
+            life: 0.78, maxLife: 0.78
           });
         }
       }
-      if (b.stateT >= 1.25) { b.state = "idle"; b.stateT = 0; b.aiCd = 0.78; }
+      if (b.stateT >= 1.16) { b.armor = 0; b.state = "idle"; b.stateT = 0; b.aiCd = baseCd; }
       return;
     }
 
     if (b.state === "charge") {
-      const spd = b.costume === 1 ? 395 : (b.costume === 2 ? 440 : 485);
-      if (b.stateT < 0.24) {
+      const spd = b.costume === 1 ? 425 : (b.costume === 2 ? 470 : (b.enraged ? 535 : 500));
+      if (b.stateT < 0.22) {
         b.vx = 0; // brief shoulder-drop windup read!
-      } else if (b.stateT < 0.86) {
+      } else if (b.stateT < 0.84) {
         b.vx = b.facing * spd;
         if (!b.hitRegistered && Math.abs(b.x - p.x) < 106 && Math.abs((b.y - 115) - (p.y - 95)) < 105) {
           b.hitRegistered = true;
-          damageGiuseppe(b.costume === 3 ? 18 : 15, b.facing * 295, false, false);
+          damageGiuseppe(b.costume === 3 ? 20 : 16, b.facing * 295, false, false);
         }
       } else {
         b.vx *= 0.82;
       }
-      if (b.stateT >= 1.12) { b.armor = 0; b.state = "idle"; b.stateT = 0; b.aiCd = 0.85; }
+      if (b.stateT >= 1.04) { b.armor = 0; b.state = "idle"; b.stateT = 0; b.aiCd = baseCd + 0.08; }
       return;
     }
 
     if (b.state === "slap") {
       b.vx *= 0.82;
-      if (b.stateT >= 0.28 && b.stateT <= 0.48 && !b.hitRegistered) {
-        if (Math.abs((b.x + b.facing * 92) - p.x) < 100 && Math.abs(b.y - p.y) < 98) {
+      if (b.stateT >= 0.24 && b.stateT <= 0.46 && !b.hitRegistered) {
+        if (Math.abs((b.x + b.facing * 92) - p.x) < 104 && Math.abs(b.y - p.y) < 98) {
           b.hitRegistered = true;
-          damageGiuseppe(b.costume === 3 ? 17 : 14, b.facing * 265, false, false);
+          damageGiuseppe(b.costume === 3 ? 19 : 15, b.facing * 275, false, false);
         }
       }
-      if (b.stateT >= 0.70) { b.state = "idle"; b.stateT = 0; b.aiCd = 0.62; }
+      if (b.stateT >= 0.64) { b.armor = 0; b.state = "idle"; b.stateT = 0; b.aiCd = baseCd; }
       return;
     }
 
     if (b.state === "sky_leap") {
       // Harkonnen floating high jump tracking partway toward Giuseppe!
-      b.vx = Math.max(-330, Math.min(330, (b.targetX - b.x) * 2.3));
+      b.vx = Math.max(-360, Math.min(360, (b.targetX - b.x) * 2.5));
       if (b.vy >= -40 || b.stateT >= 0.65) {
         b.state = "sky_slam";
         b.stateT = 0;
         b._landedAt = null;
-        b.vy = Math.max(220, b.vy);
+        b.vy = Math.max(230, b.vy);
         b.hitRegistered = false;
       }
       return;
@@ -1223,7 +1262,7 @@
       if (b.y < GROUND_Y - 1) {
         if (!b.hitRegistered && Math.abs(b.x - p.x) < 108 && Math.abs(b.y - p.y) < 92) {
           b.hitRegistered = true;
-          damageGiuseppe(20, b.facing * 280, false, false);
+          damageGiuseppe(21, b.facing * 285, false, false);
           if (G.phase !== "fighting") return;
         }
       } else {
@@ -1239,7 +1278,7 @@
           if (p.y >= GROUND_Y - 2 && !isHoldingBack() && p.invuln <= 0 && p.dizzyT <= 0) {
             if (Math.abs(b.x - p.x) < 138 && !b.hitRegistered) {
               b.hitRegistered = true;
-              damageGiuseppe(16, b.facing * 245, false, false);
+              damageGiuseppe(17, b.facing * 245, false, false);
               if (G.phase !== "fighting") return;
             } else {
               p.dizzyT = 0.55;
@@ -1248,20 +1287,20 @@
             }
           }
         }
-        if (b.stateT - (b._landedAt || 0) >= 0.38) {
-          b.state = "idle"; b.stateT = 0; b.aiCd = 0.78;
+        if (b.stateT - (b._landedAt || 0) >= 0.34) {
+          b.state = "idle"; b.stateT = 0; b.aiCd = baseCd;
         }
       }
       return;
     }
 
-    // Idle / Lumbering Walk & Decision Timer
+    // Idle / Menacing Boss Walk & Variety-Driven Decision Engine
     b.aiCd -= dt;
-    if (dist > 235) {
+    if (dist > 220) {
       b.state = "walk";
-      b.vx = b.facing * (b.costume === 1 ? 98 : (b.costume === 2 ? 116 : 134));
-    } else if (dist < 126) {
-      b.vx = -b.facing * 56;
+      b.vx = b.facing * (b.costume === 1 ? 128 : (b.costume === 2 ? 150 : (b.enraged ? 188 : 170)));
+    } else if (dist < 118) {
+      b.vx = -b.facing * 68;
       b.state = "walk";
     } else {
       b.vx *= 0.8;
@@ -1269,14 +1308,29 @@
     }
 
     if (b.aiCd <= 0) {
-      const pool = [];
-      if (!b.hatOut && dist > 210) pool.push("hat_throw", "hat_throw");
-      if (dist > 185) pool.push("cigar", "cigar");
-      if (dist < 310) pool.push("belch");
-      if (dist > 165 && dist < 540) pool.push("charge");
-      if (b.costume >= 2 && dist < 225) pool.push("slap", "slap");
-      if (b.costume >= 2 && dist > 155) pool.push("sky_leap", "sky_leap");
-      const pick = pool[Math.floor(Math.random() * pool.length)] || "cigar";
+      let pick = b.moveQueue.length ? b.moveQueue.shift() : null;
+      if (!pick) {
+        const pool = [];
+        if (!b.hatOut && dist > 180) pool.push("hat_throw", "hat_throw", "hat_throw");
+        if (dist > 155) pool.push("cigar", "cigar");
+        if (dist < 320) pool.push("belch", "belch");
+        if (dist > 135 && dist < 590) pool.push("charge", "charge");
+        if (dist < 225) pool.push(b.costume >= 2 ? "slap" : "charge", b.costume >= 2 ? "slap" : "belch");
+        if (b.costume >= 2 && dist > 140) pool.push("sky_leap", "sky_leap");
+        // Filter out the most recent move so Fanucci showcases his full animation repertoire!
+        const last = b.lastMoves[b.lastMoves.length - 1];
+        const varied = pool.filter(m => m !== last);
+        const srcPool = varied.length ? varied : pool;
+        pick = srcPool[Math.floor(Math.random() * srcPool.length)] || "cigar";
+
+        // Queue 2-Move Signature Boss Chains in Round 2 (low HP) & Round 3!
+        if ((b.costume === 3 || (b.costume === 2 && b.hp < b.maxHp * 0.65)) && !b.moveQueue.length) {
+          if (pick === "hat_throw") b.moveQueue.push(Math.random() < 0.6 ? "charge" : "cigar");
+          else if (pick === "cigar" && b.enraged) b.moveQueue.push("sky_leap");
+        }
+      }
+      b.lastMoves.push(pick);
+      if (b.lastMoves.length > 3) b.lastMoves.shift();
 
       b.state = pick;
       b.stateT = 0;
@@ -1287,13 +1341,16 @@
       if (pick === "charge") {
         b.armor = 1;
         addPopup(b.x, b.y - 285, "BELLY JUGGERNAUT!", "#fb923c");
+      } else if (pick === "slap") {
+        b.armor = b.costume >= 2 ? 1 : 0;
+      } else if (pick === "belch") {
+        b.armor = 1;
+        b.belchTick = 0;
       } else if (pick === "sky_leap") {
         b.vy = -835;
         b.targetX = Math.max(STAGE_LEFT + 90, Math.min(STAGE_RIGHT - 90, p.x));
         SFX.jump();
         addPopup(b.x, b.y - 290, "HARKONNEN SLAM!", "#f87171");
-      } else if (pick === "belch") {
-        b.belchTick = 0;
       }
     }
   }
@@ -1496,6 +1553,7 @@
 
     p.stateT += dt; p.animT += dt * 8;
     b.stateT += dt; b.animT += dt * 6;
+    if (G.comboTimer > 0) { G.comboTimer = Math.max(0, G.comboTimer - dt); if (G.comboTimer === 0) G.comboCount = 0; }
     if (p.comboWin > 0) { p.comboWin = Math.max(0, p.comboWin - dt); if (p.comboWin === 0) p.comboStep = 0; }
     if (p.throwCd > 0) p.throwCd = Math.max(0, p.throwCd - dt);
     if (p.invuln > 0) p.invuln = Math.max(0, p.invuln - dt);
@@ -1521,7 +1579,7 @@
         checkCornerPropBreak(hx);
         if (Math.abs(hx - b.x) < 92 && Math.abs(p.y - b.y) < 125) {
           p.hitRegistered = true;
-          damageFanucci(7, p.facing * 115);
+          damageFanucci(6, p.facing * 95);
         }
       }
       if (p.stateT >= 0.27) { p.state = "idle"; p.stateT = 0; }
@@ -1532,7 +1590,7 @@
         checkCornerPropBreak(hx);
         if (Math.abs(hx - b.x) < 104 && Math.abs(p.y - b.y) < 132) {
           p.hitRegistered = true;
-          damageFanucci(11, p.facing * 195);
+          damageFanucci(9, p.facing * 165);
         }
       }
       if (p.stateT >= 0.36) { p.state = "idle"; p.stateT = 0; }
@@ -1543,7 +1601,7 @@
         checkCornerPropBreak(hx);
         if (Math.abs(hx - b.x) < 114 && Math.abs(p.y - b.y) < 122) {
           p.hitRegistered = true;
-          damageFanucci(14, p.facing * 265, "PEEL THRUST!");
+          damageFanucci(12, p.facing * 240, "PEEL THRUST!", true, true);
         }
       }
       if (p.stateT >= 0.42) { p.state = "idle"; p.stateT = 0; }
@@ -1554,7 +1612,7 @@
         checkCornerPropBreak(hx);
         if (Math.abs(hx - b.x) < 98 && Math.abs(p.y - b.y) < 76) {
           p.hitRegistered = true;
-          damageFanucci(11, p.facing * 210, "ANKLE SWEEP!");
+          damageFanucci(9, p.facing * 185, "ANKLE SWEEP!", true, true);
         }
       }
       if (p.stateT >= 0.36) { p.state = keys.down ? "crouch" : "idle"; p.stateT = 0; }
@@ -1564,19 +1622,50 @@
         const hx = p.x + p.facing * 82;
         if (Math.abs(hx - b.x) < 106 && Math.abs((p.y - 125) - (b.y - 135)) < 155) {
           p.hitRegistered = true;
-          damageFanucci(16, p.facing * 250, "COAL SHORYUKEN!");
+          damageFanucci(13, p.facing * 220, "COAL SHORYUKEN!", true, true);
         }
       }
       if (p.y >= GROUND_Y && p.stateT > 0.25) { p.state = "idle"; p.stateT = 0; }
     } else if (p.state === "super") {
-      p.vx *= 0.92;
-      if (p.stateT >= 0.06 && p.stateT <= 0.42 && !p.hitRegistered) {
-        if (Math.abs((p.x + p.facing * 108) - b.x) < 130) {
-          p.hitRegistered = true;
-          damageFanucci(24, p.facing * 320, "LA FORNACE!!", true);
+      // 5-STAGE MARVEL-VS-CAPCOM "LA FORNACE 1919" HYPER COMBO!
+      // Stage 1 (Jab Rush) -> Stage 2 (Bat Smash) -> Stage 3 (Ash Peel Vault + Parlor Barrage) -> Stage 4 & 5 (Rising Coal Shoryuken!)
+      const dir = p.facing;
+      const closeEnough = Math.abs((p.x + dir * 104) - b.x) < 142;
+      if (p.stateT < 0.62) {
+        // Magnetic dash toward Fanucci so the multi-hit hyper combo connects dramatically!
+        const gap = (b.x - dir * 105) - p.x;
+        p.vx = Math.abs(gap) > 16 ? Math.sign(gap) * Math.min(480, Math.abs(gap) * 6.5) : 0;
+      } else {
+        p.vx *= 0.90;
+      }
+      if (p.superStage === 0 && p.stateT >= 0.06) {
+        p.superStage = 1;
+        SFX.swing(false);
+        if (closeEnough) damageFanucci(7, dir * 55, null, true, true);
+      } else if (p.superStage === 1 && p.stateT >= 0.22) {
+        p.superStage = 2;
+        SFX.swing(true);
+        if (closeEnough) damageFanucci(8, dir * 65, "OVEN FLURRY!", true, true);
+      } else if (p.superStage === 2 && p.stateT >= 0.40) {
+        p.superStage = 3;
+        SFX.swing(true);
+        G.projectiles.push(
+          { owner: "g", kind: "tomato", x: p.x + dir * 68, y: p.y - 138, vx: dir * 520, vy: -85, rot: 0 },
+          { owner: "g", kind: "oil",    x: p.x + dir * 50, y: p.y - 162, vx: dir * 405, vy: -225, rot: 0 },
+          { owner: "g", kind: "flour",  x: p.x + dir * 82, y: p.y - 118, vx: dir * 580, vy: -35, rot: 0 }
+        );
+        if (closeEnough) damageFanucci(9, dir * 80, "PARLOR BARRAGE!", true, true);
+      } else if (p.superStage === 3 && p.stateT >= 0.62) {
+        p.superStage = 4;
+        p.vy = -705;
+        p.vx = dir * 165;
+        SFX.jump();
+        SFX.swing(true);
+        if (Math.abs((p.x + dir * 92) - b.x) < 150) {
+          damageFanucci(12, dir * 285, "LA FORNACE FINISHER!!", true, true);
         }
       }
-      if (p.stateT >= 0.52) { p.state = "idle"; p.stateT = 0; }
+      if (p.stateT >= 1.12 && p.y >= GROUND_Y - 2) { p.state = "idle"; p.stateT = 0; }
     } else if (p.state === "throw") {
       p.vx *= 0.82;
       if (p.stateT >= 0.13 && !p._thrown) {
@@ -1682,18 +1771,18 @@
           G.projectiles.splice(i, 1);
           if (pr.kind === "tomato") {
             SFX.tinClang();
-            damageFanucci(11, Math.sign(pr.vx) * 165, "SAN MARZANO!");
+            damageFanucci(9, Math.sign(pr.vx) * 145, "SAN MARZANO!");
           } else if (pr.kind === "oil") {
             SFX.tinClang();
             G.puddles.push({ x: b.x, y: GROUND_Y - 5, life: 5.5 });
-            damageFanucci(10, Math.sign(pr.vx) * 140, "OLIO CAN!");
+            damageFanucci(8, Math.sign(pr.vx) * 120, "OLIO CAN!");
           } else if (pr.kind === "flour") {
             SFX.flourPoof();
-            b.blindedT = 0.92;
+            b.blindedT = 0.85;
             G.sparks.push({ flour: true, x: pr.x, y: pr.y, t: 0, dur: 0.45, sc: 1.25 });
-            damageFanucci(8, Math.sign(pr.vx) * 105, "FLOUR BLINDED!");
+            damageFanucci(6, Math.sign(pr.vx) * 90, "FLOUR BLINDED!");
           } else if (pr.kind === "stogie") {
-            damageFanucci(15, Math.sign(pr.vx) * 240, "RETURN TO SENDER!!");
+            damageFanucci(15, Math.sign(pr.vx) * 240, "RETURN TO SENDER!!", true, true);
           }
           if (G.phase !== "fighting") return;
           continue;
@@ -1843,7 +1932,15 @@
     if (p.state === "bat") return p.stateT < 0.10 ? "g_bat_0" : "g_bat_1";
     if (p.state === "thrust") return "g_thrust";
     if (p.state === "sweep") return "g_sweep";
-    if (p.state === "upper" || p.state === "super") return p.stateT < 0.07 ? "g_upper_0" : "g_upper_1";
+    if (p.state === "super") {
+      if (p.stateT < 0.08) return "g_jab_0";
+      if (p.stateT < 0.20) return "g_jab_1";
+      if (p.stateT < 0.29) return "g_bat_0";
+      if (p.stateT < 0.40) return "g_bat_1";
+      if (p.stateT < 0.62) return "g_thrust";
+      return p.stateT < 0.70 ? "g_upper_0" : "g_upper_1";
+    }
+    if (p.state === "upper") return p.stateT < 0.07 ? "g_upper_0" : "g_upper_1";
     if (p.state === "throw") return p.stateT < 0.12 ? "g_throw_0" : "g_throw_1";
     if (p.y < GROUND_Y - 4) return p.state === "jump_slash" ? "g_jump_slash" : "g_jump_rise";
     if (p.state === "walk") return `g_walk_${Math.floor(p.animT) % 4}`;
@@ -2131,6 +2228,10 @@
       // Draw Fanucci & Giuseppe (attacker drawn on top!)
       const gOnTop = ["jab", "bat", "thrust", "sweep", "upper", "jump_slash", "super"].includes(p.state) || G.phase === "fatality_anim";
       const renderB = () => {
+        if ((b.poiseArmorT > 0 || b.enraged) && Math.floor(G.time * 18) % 2 === 0) {
+          ctx.fillStyle = b.poiseArmorT > 0 ? "rgba(250, 204, 21, 0.24)" : "rgba(220, 38, 38, 0.20)";
+          ctx.beginPath(); ctx.ellipse(Math.round(b.x - G.camX), Math.round(b.y - G.camY - 148), 96, 146, 0, 0, Math.PI * 2); ctx.fill();
+        }
         drawFighter(getFanucciSprite(b), b.x, b.y, b.facing);
         if (b.blindedT > 0) drawTxt("*FLOUR BLINDED!*", b.x - G.camX, b.y - G.camY - 304, { fill: "#ffffff", align: "center", bold: true });
         if (G.phase === "finish_him") {
@@ -2149,12 +2250,15 @@
         }
       };
       const renderP = () => {
-        if (p.salamiT > 0 && Math.floor(G.time * 16) % 2 === 0) {
-          ctx.fillStyle = "rgba(251, 146, 60, 0.24)";
-          ctx.beginPath(); ctx.ellipse(Math.round(p.x - G.camX), Math.round(p.y - G.camY - 104), 64, 102, 0, 0, Math.PI * 2); ctx.fill();
+        if ((p.salamiT > 0 || p.state === "super") && Math.floor(G.time * 18) % 2 === 0) {
+          ctx.fillStyle = p.state === "super" ? "rgba(249, 115, 22, 0.36)" : "rgba(251, 146, 60, 0.24)";
+          ctx.beginPath(); ctx.ellipse(Math.round(p.x - G.camX), Math.round(p.y - G.camY - 104), p.state === "super" ? 82 : 64, p.state === "super" ? 116 : 102, 0, 0, Math.PI * 2); ctx.fill();
         }
         const blink = p.invuln > 0 && p.state !== "upper" && p.state !== "super" && Math.floor(G.time * 20) % 2 === 0;
         if (!blink) drawFighter(getGiuseppeSprite(p), p.x, p.y, p.facing);
+        if (p.state === "super") {
+          drawProp(`bg_fire_${Math.floor(G.time * 16) % 3}`, p.x - G.camX + p.facing * 68, p.y - G.camY - 82, { scale: 0.92 });
+        }
         if (p.dizzyT > 0) drawTxt("STAGGERED!", p.x - G.camX, p.y - G.camY - 218, { fill: "#fbbf24", align: "center", bold: true });
       };
       if (gOnTop) { renderB(); renderP(); } else { renderP(); renderB(); }
@@ -2164,7 +2268,7 @@
     G.items.forEach(it => {
       const bob = Math.sin(G.time * 7) * 4;
       drawProp(it.kind === "cannoli" ? "item_cannoli" : "item_salami", it.x - G.camX, it.y - G.camY + bob);
-      drawTxt(it.kind === "cannoli" ? "+HP CANNOLI" : "SALAMI 1.4X", it.x - G.camX, it.y - G.camY - 46 + bob, { fill: "#fde047", align: "center", bold: true });
+      drawTxt(it.kind === "cannoli" ? "+HP CANNOLI" : "SALAMI 1.3X", it.x - G.camX, it.y - G.camY - 46 + bob, { fill: "#fde047", align: "center", bold: true });
     });
     G.lootDrops.forEach(ld => drawProp(ld.spr, ld.x - G.camX, ld.y - G.camY));
 
@@ -2264,16 +2368,23 @@
       drawTxt(String(Math.ceil(G.roundClock)).padStart(2, "0"), W / 2, 20, { scale: 3, fill: G.roundClock <= 15 ? "#f87171" : "#fde047", align: "center", bold: true, hi: "#ffffff" });
       drawTxt(`ROUND ${G.roundNum}`, W / 2, 58, { fill: "#e2e8f0", align: "center", bold: true });
 
-      // Bottom-Left Giuseppe Coal-Oven Super Bar & Next 1919 Throw Item Badge!
+      // Bottom-Left Giuseppe Coal-Oven Super Bar & [K / SPACE] Next 1919 Throw Item Badge!
       const nextIt = THROW_BAG[G.bagIdx % THROW_BAG.length];
-      box(16, H - 36, 224, 24, "rgba(15,23,42,0.92)", p.ovenMeter >= 100 ? "#facc15" : "#64748b");
-      const mw = Math.round(218 * (p.ovenMeter / 100));
+      box(16, H - 36, 236, 24, "rgba(15,23,42,0.92)", p.ovenMeter >= 100 ? "#facc15" : "#64748b");
+      const mw = Math.round(230 * (p.ovenMeter / 100));
       ctx.fillStyle = p.ovenMeter >= 100 && Math.floor(G.time * 10) % 2 === 0 ? "#fde047" : "#ea580c";
       ctx.fillRect(19, H - 33, mw, 18);
-      drawTxt(p.ovenMeter >= 100 ? "[L] COAL SUPER READY!!" : `COAL OVEN: ${p.ovenMeter}%`, 128, H - 28, { fill: "#ffffff", align: "center", bold: true });
+      drawTxt(p.ovenMeter >= 100 ? "[L / E] SUPER READY!!" : `COAL OVEN: ${p.ovenMeter}%`, 134, H - 28, { fill: "#ffffff", align: "center", bold: true });
 
-      box(248, H - 36, 198, 24, "rgba(15,23,42,0.92)", nextIt.color);
-      drawTxt(`[K] NEXT: ${nextIt.label}`, 347, H - 28, { fill: nextIt.color, align: "center", bold: true });
+      box(260, H - 36, 256, 24, "rgba(15,23,42,0.92)", nextIt.color);
+      drawTxt(`[K / SPACE] NEXT: ${nextIt.label}`, 388, H - 28, { fill: nextIt.color, align: "center", bold: true });
+
+      // Live Arcade Combo Counter (MvC / Street Fighter Alpha style!)
+      if (G.comboTimer > 0 && G.comboDisp >= 2) {
+        const cCol = G.comboDisp >= 4 ? "#fb923c" : "#facc15";
+        drawTxt(`${G.comboDisp} HITS!!`, 96, 134, { scale: 3, fill: cCol, hi: "#fef9c3", align: "center", bold: true });
+        drawTxt(G.comboDisp >= 5 ? "LA FORNACE HYPER!!" : "PARLOR COMBO!", 96, 166, { fill: "#fde047", align: "center", bold: true });
+      }
     }
 
     // Speech Bubble & Center Callouts
