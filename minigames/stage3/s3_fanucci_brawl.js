@@ -1,7 +1,7 @@
 // ============================================================================
 // STAGE 3 INTER-BOROUGH BONUS: "FEAST OF BLOOD: MULBERRY ST., 1919"
 // 32-Bit CPS-2 / SNK Neo-Geo Street Fighter II Rooftop Boss Battle
-// 15-Year-Old Giuseppe Russo vs. Gluttonous Zombie Don Fanucci (Best of 3 Rounds)
+// 15-Year-Old Giuseppe Marzano vs. Gluttonous Zombie Don Fanucci (Best of 3 Rounds)
 // ============================================================================
 (function () {
   const W = 960, H = 540;
@@ -74,10 +74,10 @@
   function loadImg(rel) {
     const jsd = getJsDelivr();
     const cands = [
-      `./assets/${rel}?v=0235l`,
-      `../assets/${rel}?v=0235l`,
-      `${GH_PAGES}/${rel}?v=0235l`,
-      `${GH_PAGES}/assets/${rel}?v=0235l`,
+      `./assets/${rel}?v=0235v`,
+      `../assets/${rel}?v=0235v`,
+      `${GH_PAGES}/${rel}?v=0235v`,
+      `${GH_PAGES}/assets/${rel}?v=0235v`,
       `${jsd}/assets/${rel}`,
       `${jsd}/${rel}`
     ];
@@ -91,6 +91,7 @@
   }
 
   const IMG = {
+    poster:   loadImg("minigames/stage3/s3_boxing_poster_bg.png"),
     sky:      loadImg("minigames/stage3/s3_bg_sky.png"),
     far:      loadImg("minigames/stage3/s3_bg_far.png"),
     vista:    loadImg("minigames/stage3/s3_vista_bg.png"),
@@ -402,16 +403,16 @@
     const d = im.data;
     const [fr, fg, fb] = hexRgb(fill);
     const [hr, hg, hb] = hi ? hexRgb(hi) : [Math.min(255, fr + 36), Math.min(255, fg + 36), Math.min(255, fb + 36)];
-    const [or, og, ob] = hexRgb(outline);
+    const [or, og, ob] = outline ? hexRgb(outline) : [0, 0, 0];
 
     for (let ly = 0; ly < mh; ly++) {
       for (let lx = 0; lx < mw; lx++) {
         const v = mask[ly * mw + lx];
         let pr = 0, pg = 0, pb = 0, pa = 0;
         if (v > 0) {
-          const useHi = (hi || scale >= 2) && v <= 2;
+          const useHi = (hi !== false) && (hi || scale >= 2) && v <= 2;
           pr = useHi ? hr : fr; pg = useHi ? hg : fg; pb = useHi ? hb : fb; pa = 255;
-        } else {
+        } else if (outline) {
           const touch =
             (lx > 0 && mask[ly * mw + lx - 1]) ||
             (lx < mw - 1 && mask[ly * mw + lx + 1]) ||
@@ -897,7 +898,7 @@
       const mx = ((e.clientX - r.left) / r.width) * W;
       const my = ((e.clientY - r.top) / r.height) * H;
       if (G.phase === "vs_intro") {
-        if (mx >= 505 && mx <= 775 && my >= 445 && my <= 495) exitStage(true);
+        if (mx >= 520 && mx <= 765 && my >= 500 && my <= 540) exitStage(true);
         else startNewMatch(false);
       } else if (G.phase === "finish_him") {
         triggerFatalityStrike();
@@ -1243,7 +1244,7 @@
             } else {
               p.dizzyT = 0.55;
               p.state = "hurt"; p.stateT = 0;
-              addPopup(p.x, p.y - 198, "ROOF TREMOR! JUMP [W]!", "#fbbf24");
+              addPopup(p.x, p.y - 198, "ROOF TREMOR! JUMP [W / UP]!", "#fbbf24");
             }
           }
         }
@@ -1730,7 +1731,7 @@
           if (peelSwinging && !pr._warned && Math.hypot(pr.x - peelBoxX, pr.y - peelBoxY) < 84) {
             pr._warned = true;
             SFX.block();
-            addPopup(pr.x, pr.y - 38, "NO DEFLECT! DUCK [S]!", "#f87171");
+            addPopup(pr.x, pr.y - 38, "NO DEFLECT! DUCK [S / DOWN]!", "#f87171");
           }
           if (!pr.returning && pr.boomerang && (pr.traveled > 560 || pr.x < STAGE_LEFT + 40 || pr.x > STAGE_RIGHT - 40)) {
             pr.returning = true;
@@ -1924,45 +1925,23 @@
       ctx.translate(Math.round((Math.random() - 0.5) * G.shake), Math.round((Math.random() - 0.5) * G.shake));
     }
 
-    // --- 1. VS INTRO SCREEN ---
+    // --- 1. 1919 NEW YORK WHEAT-PASTED BOXING POSTER CLOSE-UP (32-BIT CUTSCENE ART) ---
     if (G.phase === "vs_intro") {
-      if (IMG.cutscene._ready) ctx.drawImage(IMG.cutscene, 0, 0, W, H);
-      else { ctx.fillStyle = "#1a0b12"; ctx.fillRect(0, 0, W, H); }
-      ctx.fillStyle = "rgba(9, 7, 14, 0.80)";
-      ctx.fillRect(0, 0, W, H);
+      if (IMG.poster._ready) {
+        ctx.drawImage(IMG.poster, 0, 0, W, H);
+      } else {
+        ctx.fillStyle = "#19100e";
+        ctx.fillRect(0, 0, W, H);
+        drawTxt("GIUSEPPE MARZANO V. DON FANUCCI", W / 2, H / 2 - 12, { scale: 2, fill: "#dfd2b4", align: "center", bold: true });
+      }
 
-      box(70, 34, 820, 472, "rgba(18, 12, 24, 0.94)", "#f59e0b");
-      drawTxt("MULBERRY STREET, 1919 — FEAST OF BLOOD", W / 2, 56, { scale: 2, fill: "#facc15", align: "center", bold: true, hi: "#fef08a" });
-      drawTxt("32-BIT ROOFTOP BOSS BATTLE  *  BEST OF 3 ROUNDS", W / 2, 84, { fill: "#38bdf8", align: "center", bold: true });
+      // Subtle, unobtrusive arcade prompts tucked in the dark brick margin below the poster (y = 508..534)
+      const pulse = Math.floor(G.time * 3) % 2 === 0;
+      box(212, 509, 256, 24, pulse ? "rgba(127, 29, 29, 0.92)" : "rgba(69, 10, 10, 0.92)", "#d6c38e");
+      drawTxt("[ENTER] RING THE BELL!", 340, 518, { fill: "#fef3c7", outline: "#1c100d", align: "center", bold: true });
 
-      // VS Portraits Card
-      box(118, 106, 260, 152, "#1e293b", "#38bdf8");
-      drawProp("port_giuseppe_vs", 188, 182, { scale: 0.96 });
-      drawTxt("GIUSEPPE", 304, 142, { scale: 2, fill: "#fde047", align: "center", bold: true });
-      drawTxt("AGE 15 • ASH PEEL", 304, 172, { fill: "#cbd5e1", align: "center" });
-      drawTxt("NIMBLE & FAST", 304, 192, { fill: "#4ade80", align: "center", bold: true });
-
-      drawTxt("VS", W / 2, 172, { scale: 3, fill: "#ef4444", align: "center", bold: true, hi: "#fca5a5" });
-
-      box(582, 106, 260, 152, "#29141b", "#ef4444");
-      drawProp("port_fanucci_vs", 772, 182, { flipX: true, scale: 0.96 });
-      drawTxt("FANUCCI", 658, 142, { scale: 2, fill: "#f87171", align: "center", bold: true });
-      drawTxt("BLACK HAND GHOUL", 658, 172, { fill: "#cbd5e1", align: "center" });
-      drawTxt("BEHEMOTH BOSS", 658, 192, { fill: "#fb923c", align: "center", bold: true });
-
-      const tips = [
-        "* [J / F] 3-HIT PIZZA PEEL COMBO  (SWING PEEL TO BAT LIT STOGIES BACK AT FANUCCI!)",
-        "* [K / SPACE] HURL 1919 SAN MARZANO TINS, SLICK OLIO CANS & BLINDING 00-FLOUR!",
-        "* [S] DUCKS UNDER HIS RAZOR WHITE FEDORA (PEEL CANNOT DEFLECT HIS HAT!)",
-        "* HOLD BACK TO GUARD  •  SMASH ROOF CRATES FOR CANNOLI (+HP) & HARD SALAMI!",
-        "* [L / E / SHIFT] UNLEASH 'LA FORNACE 1919' SUPER WHEN COAL-OVEN METER FILLS!"
-      ];
-      tips.forEach((l, i) => drawTxt(l, 118, 282 + i * 28, { fill: "#f1f5f9" }));
-
-      box(185, 446, 295, 42, Math.floor(G.time * 3) % 2 === 0 ? "#f59e0b" : "#d97706", "#fef08a");
-      drawTxt("[ENTER] FIGHT FANUCCI!", 332, 462, { fill: "#090812", outline: "#fef08a", align: "center", bold: true });
-      box(505, 446, 270, 42, "#1e293b", "#94a3b8");
-      drawTxt("[ESC] SKIP STAGE \x03", 640, 462, { fill: "#e2e8f0", align: "center", bold: true });
+      box(524, 509, 224, 24, "rgba(28, 22, 20, 0.90)", "#78716c");
+      drawTxt("[ESC] SKIP STAGE \x03", 636, 518, { fill: "#d6d3d1", outline: "#0c0a09", align: "center", bold: true });
 
       ctx.restore();
       dispCtx.drawImage(offCvs, 0, 0, dispCvs.width, dispCvs.height);
@@ -2256,7 +2235,7 @@
       ctx.fillStyle = "#dc2626"; ctx.fillRect(78 + (barW - 4 - gRedW), 20, gRedW, barH - 4);
       ctx.fillStyle = p.salamiT > 0 ? "#fb923c" : "#facc15"; ctx.fillRect(78 + (barW - 4 - gYelW), 20, gYelW, barH - 4);
       ctx.fillStyle = "#fef08a"; ctx.fillRect(78 + (barW - 4 - gYelW), 20, gYelW, 4);
-      drawTxt("GIUSEPPE (1919)", 78, 44, { fill: "#fde047", bold: true });
+      drawTxt("GIUSEPPE", 78, 44, { fill: "#fde047", bold: true });
 
       // Round win markers (Giuseppe)
       for (let w = 0; w < 2; w++) {
@@ -2326,11 +2305,11 @@
       ctx.fillStyle = "rgba(9, 7, 15, 0.88)";
       ctx.fillRect(0, 0, W, H);
       box(90, 56, 780, 428, "#140f1d", G.gWins >= 2 ? "#facc15" : "#ef4444");
-      drawTxt(G.gWins >= 2 ? "GIUSEPPE RUSSO WINS!!" : "ZOMBIE DON FANUCCI WINS!", W / 2, 82, { scale: 3, fill: G.gWins >= 2 ? "#facc15" : "#ef4444", align: "center", bold: true, hi: "#fef08a" });
+      drawTxt(G.gWins >= 2 ? "GIUSEPPE MARZANO WINS!!" : "ZOMBIE DON FANUCCI WINS!", W / 2, 82, { scale: 3, fill: G.gWins >= 2 ? "#facc15" : "#ef4444", align: "center", bold: true, hi: "#fef08a" });
 
       box(170, 138, 220, 210, "#1e293b", "#38bdf8");
       drawProp(G.gWins >= 2 ? "port_giuseppe_win" : "port_giuseppe_vs", 280, 232, { scale: 1.32 });
-      drawTxt("GIUSEPPE (1919)", 280, 326, { fill: "#fde047", align: "center", bold: true });
+      drawTxt("GIUSEPPE", 280, 326, { fill: "#fde047", align: "center", bold: true });
 
       drawTxt(`${G.gWins} - ${G.fWins}`, W / 2, 232, { scale: 3, fill: "#ffffff", align: "center", bold: true });
 
@@ -2339,7 +2318,7 @@
       drawTxt(G.gWins >= 2 ? "FANUCCI (DECAPITATED)" : "DON FANUCCI", 680, 326, { fill: "#f87171", align: "center", bold: true });
 
       const q1 = G.gWins >= 2
-        ? "\"TELL EVERY BLACK-HAND GHOUL ON MULBERRY STREET: RUSSO'S PIES AIN'T FREE!\""
+        ? "\"TELL EVERY BLACK-HAND GHOUL ON MULBERRY STREET: MARZANO'S PIES AIN'T FREE!\""
         : "\"TOO SCRAWNY, KID! NEXT TIME BRING MORE CANNOLI FOR DON FANUCCI!\"";
       drawTxt(q1, W / 2, 378, { fill: "#fef08a", align: "center", bold: true });
       box(310, 418, 340, 40, "#f59e0b", "#fef08a");
