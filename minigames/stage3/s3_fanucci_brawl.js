@@ -12,71 +12,71 @@
   const GH_PAGES = "https://famousoriginaldanblank-blip.github.io/pizza-driver-assets";
   const getJsDelivr = () => `https://cdn.jsdelivr.net/gh/famousoriginaldanblank-blip/pizza-driver-assets@${window.__PD_ASSET_REF || "main"}`;
 
-  // 73 Marvel-vs-Capcom Scale Fighter Keyframes (s3_sprites_fighters.png: [x, y, w, h, ax, ay], facing RIGHT +1)
+  // 73 Native 1920x1080 (2x-HD) Fighter Keyframes (s3_sprites_fighters.png: [x, y, w, h, ax, ay], facing RIGHT +1)
   const F_FRAMES = {
-    g_idle_0:[4,4,194,208,68,207], g_idle_1:[202,4,191,201,66,200], g_idle_2:[397,4,164,216,56,215], g_walk_0:[565,4,177,212,61,211],
-    g_walk_1:[746,4,174,210,79,209], g_walk_2:[924,4,179,212,60,211], g_walk_3:[1107,4,182,201,59,200], g_crouch:[1293,4,199,147,91,146],
-    g_block:[1496,4,144,201,68,200], g_jump_rise:[1644,4,162,192,78,191], g_jump_slash:[1810,4,155,203,78,202], g_victory:[1969,4,184,260,107,259],
-    g_jab_0:[2157,4,202,218,72,217], g_jab_1:[2363,4,188,207,66,206], g_bat_0:[4,268,116,225,58,224], g_bat_1:[124,268,202,199,71,198],
-    g_thrust:[330,268,256,183,94,182], g_sweep:[590,268,190,136,78,135], g_upper_0:[784,268,185,180,74,179], g_upper_1:[973,268,131,298,77,297],
-    g_throw_0:[1108,268,126,219,61,218], g_throw_1:[1238,268,129,214,61,213], g_hurt:[1371,268,188,234,64,233], g_ko:[1563,268,205,80,103,79],
+    g_idle_0:[4,4,390,421,138,420], g_idle_1:[398,4,382,407,133,406], g_idle_2:[784,4,332,434,112,433], g_walk_0:[1120,4,358,427,122,426],
+    g_walk_1:[1482,4,352,422,157,421], g_walk_2:[1838,4,360,426,121,425], g_walk_3:[2202,4,366,403,118,402], g_crouch:[2572,4,402,296,183,295],
+    g_block:[2978,4,290,403,139,402], g_jump_rise:[3272,4,329,389,155,388], g_jump_slash:[3605,4,312,410,156,409], g_victory:[3921,4,373,522,215,521],
+    g_jab_0:[4,530,407,438,146,437], g_jab_1:[415,530,380,418,135,417], g_bat_0:[799,530,239,454,121,453], g_bat_1:[1042,530,409,400,144,399],
+    g_thrust:[1455,530,518,371,191,370], g_sweep:[1977,530,385,277,157,276], g_upper_0:[2366,530,394,364,167,363], g_upper_1:[2764,530,274,599,157,598],
+    g_throw_0:[3042,530,255,441,124,440], g_throw_1:[3301,530,263,435,126,434], g_hurt:[3568,530,381,472,129,471], g_ko:[3953,530,418,165,209,164],
 
-    f1_idle_0:[1772,268,177,294,77,293], f1_idle_1:[1953,268,171,301,86,300],
-    f1_walk_0:[2128,268,169,290,83,289], f1_walk_1:[2301,268,176,296,81,295], f1_walk_2:[4,573,150,293,69,292],
-    f1_charge:[158,573,218,274,99,273], f1_cigar:[380,573,210,295,88,294], f1_belch:[594,573,202,295,86,294],
-    f1_hat_wind_bald:[800,573,183,297,72,296], f1_hat_throw_bald:[987,573,207,281,74,280],
-    f1_hurt:[1198,573,214,290,101,289], f1_ko_bald:[1416,573,250,113,125,112],
+    f1_idle_0:[4,1133,368,588,166,587], f1_idle_1:[376,1133,344,600,171,599],
+    f1_walk_0:[724,1133,347,579,160,578], f1_walk_1:[1075,1133,347,590,162,589], f1_walk_2:[1426,1133,320,597,153,596],
+    f1_charge:[1750,1133,417,532,187,531], f1_cigar:[2171,1133,426,588,172,587], f1_belch:[2601,1133,407,590,176,589],
+    f1_hat_wind_bald:[3012,1133,373,598,150,597], f1_hat_throw_bald:[3389,1133,417,559,154,558],
+    f1_hurt:[3810,1133,438,581,205,580], f1_ko_bald:[4,1737,497,232,249,231],
 
-    f2_idle_0:[1670,573,171,295,77,294], f2_idle_1:[1845,573,156,301,79,300],
-    f2_walk_0:[2005,573,153,290,77,289], f2_walk_1:[2162,573,158,296,75,295],
-    f2_charge:[2324,573,180,258,92,257], f2_slap:[4,878,197,293,79,292], f2_slap_bald:[205,878,197,284,79,283],
-    f2_belch:[406,878,209,296,83,295], f2_sky_leap:[619,878,167,270,85,269], f2_sky_slam:[790,878,230,223,114,222],
-    f2_hat_throw_bald:[1024,878,190,278,76,277], f2_hurt_bald:[1218,878,162,277,80,276], f2_ko_bald:[1384,878,251,111,126,110],
+    f2_idle_0:[505,1737,306,599,140,598], f2_idle_1:[815,1737,239,623,124,622],
+    f2_walk_0:[1058,1737,237,605,119,604], f2_walk_1:[1299,1737,250,609,130,608],
+    f2_charge:[1553,1737,299,515,143,514], f2_slap:[1856,1737,362,553,148,552], f2_slap_bald:[2222,1737,362,532,148,531],
+    f2_belch:[2588,1737,302,600,134,599], f2_sky_leap:[2894,1737,248,659,131,658], f2_sky_slam:[3146,1737,449,467,216,466],
+    f2_hat_throw_bald:[3599,1737,341,565,114,564], f2_hurt_bald:[3944,1737,307,535,159,534], f2_ko_bald:[4,2400,531,159,265,158],
 
-    f3_idle_0:[1639,878,176,297,79,296], f3_idle_1:[1819,878,158,303,80,302],
-    f3_walk_0:[1981,878,161,293,81,292], f3_walk_1:[2146,878,163,297,78,296],
-    f3_charge:[2313,878,184,263,96,262], f3_slap:[4,1185,199,300,80,299],
-    f3_walk_1_bald:[207,1185,162,287,76,286], f3_charge_bald:[373,1185,183,254,93,253], f3_slap_bald:[560,1185,197,288,79,287],
-    f3_belch:[761,1185,210,297,83,296], f3_sky_slam:[975,1185,190,223,92,222], f3_cigar:[1169,1185,190,287,72,286],
-    f3_hat_throw_bald:[1363,1185,193,280,77,279], f3_hurt_bald:[1560,1185,163,278,82,277], f3_ko_bald:[1727,1185,252,113,126,112],
+    f3_idle_0:[539,2400,350,595,157,594], f3_idle_1:[893,2400,319,605,162,604],
+    f3_walk_0:[1216,2400,324,584,163,583], f3_walk_1:[1544,2400,328,595,157,594],
+    f3_charge:[1876,2400,371,524,192,523], f3_slap:[2251,2400,400,600,162,599],
+    f3_walk_1_bald:[2655,2400,324,574,154,573], f3_charge_bald:[2983,2400,369,509,187,508], f3_slap_bald:[3356,2400,398,578,160,577],
+    f3_belch:[3758,2400,424,595,171,594], f3_sky_slam:[4186,2400,383,448,183,447], f3_cigar:[4,3009,381,572,144,571],
+    f3_hat_throw_bald:[389,3009,390,562,158,561], f3_hurt_bald:[783,3009,333,559,168,558], f3_ko_bald:[1120,3009,507,229,253,228],
 
-    f1_esp_sip:[1983,1185,174,295,89,294], f1_esp_toss:[2161,1185,206,297,92,296],
-    f2_esp_sip:[2371,1185,147,295,67,294], f2_esp_toss:[4,1489,177,295,76,294],
-    f3_esp_sip:[185,1489,143,295,63,294], f3_esp_toss:[332,1489,188,294,84,293],
-    f_dizzy_bald:[524,1489,174,287,84,286], f_headless_stand:[702,1489,159,263,76,262], f_headless_ko:[865,1489,283,119,136,118]
+    f1_esp_sip:[1631,3009,364,593,186,592], f1_esp_toss:[1999,3009,428,598,190,597],
+    f2_esp_sip:[2431,3009,302,591,139,590], f2_esp_toss:[2737,3009,362,591,157,590],
+    f3_esp_sip:[3103,3009,302,591,138,590], f3_esp_toss:[3409,3009,391,591,176,590],
+    f_dizzy_bald:[3804,3009,353,574,169,573], f_headless_stand:[4161,3009,324,526,156,525], f_headless_ko:[4,3611,567,243,272,242]
   };
 
-  // 47 Prop, Smaller Stogie/Cannoli, Animated Crowd, Portrait, Float & Fatality Frames (s3_sprites_props.png)
+  // 47 Native 1920x1080 (2x-HD) Prop, Crowd, Portrait, Float & Fatality Frames (s3_sprites_props.png)
   const P_FRAMES = {
-    float_r1:[4,4,140,160,70,159], float_r2:[148,4,173,161,87,160], float_r3:[325,4,154,161,77,160],
-    bg_fire_0:[483,4,59,91,30,90], bg_fire_1:[546,4,78,117,39,116], bg_fire_2:[628,4,66,117,33,116],
-    bg_zmob_0:[698,4,131,101,66,100], bg_zmob_1:[833,4,130,99,65,98], bg_zmob_2:[967,4,131,99,66,98],
-    bg_crowd_0:[1102,4,109,97,55,96], bg_crowd_1:[4,169,116,87,58,86], bg_crowd_2:[124,169,117,85,59,84], bg_crowd_3:[245,169,109,87,55,86],
-    bg_climber_0:[358,169,44,97,22,49], bg_climber_1:[406,169,52,84,26,42],
-    bg_smoke_0:[462,169,100,117,50,116], bg_smoke_1:[566,169,95,117,48,116], bg_smoke_2:[665,169,90,117,45,116],
-    crate_intact:[759,169,143,108,72,107], crate_smashed:[906,169,148,73,74,72],
-    coop_intact:[1058,169,152,96,76,95], coop_smashed:[4,290,166,86,83,85],
-    pigeon_0:[174,290,41,52,21,26], pigeon_1:[219,290,53,35,27,18],
-    port_giuseppe_vs:[276,290,115,132,58,66], port_giuseppe_win:[395,290,108,131,54,66],
-    port_fanucci_vs:[507,290,129,135,65,68], port_fanucci_lose:[640,290,137,131,69,66],
-    loot_watch:[781,290,65,71,33,36], loot_chest:[850,290,65,70,33,35], vfx_spark:[919,290,86,91,43,46],
-    proj_tomato_0:[1009,290,39,58,20,29], proj_tomato_1:[1052,290,56,38,28,19],
-    proj_oil_can:[1112,290,42,65,21,33], proj_oil_puddle:[1158,290,111,46,56,23],
-    proj_flour_scoop:[4,429,54,45,27,23], proj_flour_cloud:[62,429,119,115,60,58],
-    proj_hat_0:[185,429,91,52,46,26], proj_hat_1:[280,429,101,65,51,33],
-    proj_stogie:[385,429,32,21,16,11], proj_ember:[421,429,25,29,13,28],
-    item_cannoli:[450,429,38,34,19,33], item_salami:[492,429,46,40,23,39],
-    head_fly_0:[542,429,77,97,37,49], head_fly_1:[623,429,90,93,43,47],
-    esp_cup:[717,429,23,22,11,11], esp_saucer:[744,429,32,16,15,8]
+    float_r1:[4,4,282,322,141,321], float_r2:[290,4,350,322,175,321], float_r3:[644,4,309,325,155,324],
+    bg_fire_0:[957,4,118,183,59,182], bg_fire_1:[1079,4,158,236,79,235], bg_fire_2:[1241,4,136,236,68,235],
+    bg_zmob_0:[1381,4,263,203,132,202], bg_zmob_1:[1648,4,262,202,131,201], bg_zmob_2:[1914,4,262,200,131,199],
+    bg_crowd_0:[2180,4,221,194,111,193], bg_crowd_1:[4,333,232,178,116,177], bg_crowd_2:[240,333,236,172,118,171], bg_crowd_3:[480,333,218,174,109,173],
+    bg_climber_0:[702,333,91,196,46,98], bg_climber_1:[797,333,107,171,54,86],
+    bg_smoke_0:[908,333,204,237,102,236], bg_smoke_1:[1116,333,194,237,97,236], bg_smoke_2:[1314,333,187,237,94,236],
+    crate_intact:[1505,333,288,218,144,217], crate_smashed:[1797,333,299,146,150,145],
+    coop_intact:[2100,333,310,194,155,193], coop_smashed:[4,574,337,173,169,172],
+    pigeon_0:[345,574,89,107,45,54], pigeon_1:[438,574,110,72,55,36],
+    port_giuseppe_vs:[552,574,232,268,116,134], port_giuseppe_win:[788,574,218,265,109,133],
+    port_fanucci_vs:[1010,574,259,270,130,135], port_fanucci_lose:[1273,574,276,264,138,132],
+    loot_watch:[1553,574,131,145,66,73], loot_chest:[1688,574,132,142,66,71], vfx_spark:[1824,574,177,185,89,93],
+    proj_tomato_0:[2005,574,80,117,40,59], proj_tomato_1:[2089,574,113,76,57,38],
+    proj_oil_can:[2206,574,85,131,43,66], proj_oil_puddle:[2295,574,224,93,112,47],
+    proj_flour_scoop:[4,848,110,89,55,45], proj_flour_cloud:[118,848,240,231,120,116],
+    proj_hat_0:[362,848,185,107,93,54], proj_hat_1:[551,848,204,132,102,66],
+    proj_stogie:[759,848,65,42,33,21], proj_ember:[828,848,51,59,26,58],
+    item_cannoli:[883,848,76,68,38,67], item_salami:[963,848,94,81,47,80],
+    head_fly_0:[1061,848,158,197,76,99], head_fly_1:[1223,848,184,192,88,96],
+    esp_cup:[1411,848,49,45,24,23], esp_saucer:[1464,848,66,35,32,18]
   };
 
   function loadImg(rel) {
     const jsd = getJsDelivr();
     const cands = [
-      `./assets/${rel}?v=0236b`,
-      `../assets/${rel}?v=0236b`,
-      `${GH_PAGES}/${rel}?v=0236b`,
-      `${GH_PAGES}/assets/${rel}?v=0236b`,
+      `./assets/${rel}?v=0236c`,
+      `../assets/${rel}?v=0236c`,
+      `${GH_PAGES}/${rel}?v=0236c`,
+      `${GH_PAGES}/assets/${rel}?v=0236c`,
       `${jsd}/assets/${rel}`,
       `${jsd}/${rel}`
     ];
@@ -351,9 +351,11 @@
     " ":["000","000","000","000","000","000","000"]
   };
 
+  const RENDER_SCALE = 2; // True 1920x1080 HD Arcade Rendering (4x pixel density!)
+  const ATLAS_INV = 0.5;  // Maps 2x-HD atlas frames 1:1 onto 1920x1080!
   const offCvs = document.createElement("canvas");
-  offCvs.width = W;
-  offCvs.height = H;
+  offCvs.width = W * RENDER_SCALE;
+  offCvs.height = H * RENDER_SCALE;
   const ctx = offCvs.getContext("2d");
   ctx.imageSmoothingEnabled = false;
 
@@ -466,9 +468,10 @@
     if (!f || !IMG.fighters._ready) return;
     ctx.save();
     ctx.imageSmoothingEnabled = false;
-    ctx.translate(Math.round(wx - G.camX), Math.round(wy - G.camY));
+    ctx.translate(Math.round((wx - G.camX) * 2) * 0.5, Math.round((wy - G.camY) * 2) * 0.5);
     if (facing < 0) ctx.scale(-1, 1);
-    if (scale !== 1) ctx.scale(scale, scale);
+    const s = scale * ATLAS_INV;
+    ctx.scale(s, s);
     ctx.drawImage(IMG.fighters, f[0], f[1], f[2], f[3], -f[4], -f[5], f[2], f[3]);
     ctx.restore();
   }
@@ -479,10 +482,11 @@
     ctx.save();
     ctx.imageSmoothingEnabled = false;
     if (alpha < 1) ctx.globalAlpha = Math.max(0, alpha);
-    ctx.translate(Math.round(sx), Math.round(sy));
+    ctx.translate(Math.round(sx * 2) * 0.5, Math.round(sy * 2) * 0.5);
     if (rot) ctx.rotate(rot);
     if (flipX) ctx.scale(-1, 1);
-    if (scale !== 1) ctx.scale(scale, scale);
+    const s = scale * ATLAS_INV;
+    ctx.scale(s, s);
     ctx.drawImage(IMG.props, f[0], f[1], f[2], f[3], -f[4], -f[5], f[2], f[3]);
     ctx.restore();
   }
@@ -2016,6 +2020,7 @@
     dispCtx.imageSmoothingEnabled = false;
 
     ctx.save();
+    ctx.setTransform(RENDER_SCALE, 0, 0, RENDER_SCALE, 0, 0);
     ctx.imageSmoothingEnabled = false;
     if (G.shake > 0.2) {
       ctx.translate(Math.round((Math.random() - 0.5) * G.shake), Math.round((Math.random() - 0.5) * G.shake));
@@ -2191,7 +2196,7 @@
 
     // Plane 5 (1.00x scroll): Close-Up Marvel-vs-Capcom Scale 1640px Rooftop Arena + Low Brick Parapet!
     if (IMG.roof._ready) {
-      ctx.drawImage(IMG.roof, Math.round(-G.camX), Math.round(288 - G.camY));
+      ctx.drawImage(IMG.roof, Math.round(-G.camX * 2) * 0.5, Math.round((288 - G.camY) * 2) * 0.5, 1640, 252);
     } else {
       ctx.fillStyle = "#292524"; ctx.fillRect(0, 390, W, 150);
     }
